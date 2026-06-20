@@ -54,13 +54,13 @@ CATEGORIES_FALLBACK = {
 }
 
 CATEGORY_COLORS = {
-    "Research & Analysis": "#8B5CF6",
-    "Knowledge & Learning": "#6366F1",
-    "Documents & Output": "#3B82F6",
-    "Creative & Design": "#EC4899",
-    "File & System": "#14B8A6",
-    "Developer Tools": "#64748B",
-    "Uncategorized": "#9CA3AF",
+    "Research & Analysis": "#7C3AED",
+    "Knowledge & Learning": "#4F46E5",
+    "Documents & Output": "#2563EB",
+    "Creative & Design": "#DB2777",
+    "File & System": "#0D9488",
+    "Developer Tools": "#475569",
+    "Uncategorized": "#6B7280",
 }
 
 CATEGORY_ORDER = [
@@ -173,11 +173,11 @@ def generate_html(skills: list) -> str:
 :root {{
   --bg: #FAFAFA;
   --ink: #1A1A2E;
-  --muted: #6B7280;
-  --signal: #3B82F6;
+  --muted: #4B5563;
+  --signal: #2563EB;
   --idle: #D1D5DB;
-  --pulse: #10B981;
-  --warm: #F59E0B;
+  --pulse: #059669;
+  --warm: #D97706;
   --card-bg: #FFFFFF;
   --border: #E5E7EB;
 }}
@@ -213,6 +213,8 @@ h1 {{
   font-weight: 600;
   color: var(--ink);
 }}
+.stats-bar .stat-active {{ color: var(--pulse); font-weight: 600; }}
+.stats-bar .stat-invocations {{ color: var(--signal); font-weight: 600; }}
 .category {{
   margin-bottom: 40px;
 }}
@@ -286,34 +288,32 @@ h1 {{
   cursor: pointer;
   padding: 4px 6px;
   color: var(--muted);
-  transition: color 0.15s, border-color 0.15s;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
   display: flex;
   align-items: center;
-  position: relative;
 }}
 .copy-btn:hover {{ color: var(--ink); border-color: var(--ink); }}
-.copy-btn.copied {{ color: var(--pulse); border-color: var(--pulse); }}
+.copy-btn.copied {{ color: var(--pulse); border-color: var(--pulse); background: #ecfdf5; }}
 .copy-btn.copied .icon-copy {{ display: none !important; }}
 .copy-btn.copied .icon-check {{ display: block !important; }}
-.copy-toast {{
-  position: absolute;
-  top: -28px;
-  right: 0;
-  font-size: 11px;
+#global-toast {{
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  font-size: 13px;
   font-family: 'JetBrains Mono', monospace;
-  color: var(--pulse);
-  background: white;
-  border: 1px solid var(--pulse);
-  padding: 2px 8px;
-  white-space: nowrap;
-  animation: fadeInOut 1.2s ease forwards;
+  color: white;
+  background: var(--ink);
+  padding: 8px 20px;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
   pointer-events: none;
+  z-index: 1000;
 }}
-@keyframes fadeInOut {{
-  0% {{ opacity: 0; transform: translateY(4px); }}
-  15% {{ opacity: 1; transform: translateY(0); }}
-  75% {{ opacity: 1; }}
-  100% {{ opacity: 0; }}
+#global-toast.show {{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }}
 .desc {{
   font-size: 12px;
@@ -358,8 +358,8 @@ footer {{
 <h1>SKILLS DASHBOARD</h1>
 <div class="stats-bar">
 <span><span class="stat-value">{total_installed}</span> installed</span>
-<span><span class="stat-value" id="stat-active">—</span> active this week</span>
-<span><span class="stat-value" id="stat-total">—</span> total invocations</span>
+<span><span class="stat-value stat-active" id="stat-active">—</span> active this week</span>
+<span><span class="stat-value stat-invocations" id="stat-total">—</span> total invocations</span>
 <span>Skills scanned: {now.strftime("%Y-%m-%d %H:%M")}</span>
 </div>
 </header>
@@ -369,20 +369,20 @@ footer {{
 <footer>
 Skills Dashboard &mdash; scanned from F:\\_环境\\claude\\commands\\
 </footer>
+<div id="global-toast"></div>
 <script>
 const USAGE_LOG_PATH = 'usage.jsonl';
+let toastTimer = null;
 
 function copySlug(btn, text) {{
   navigator.clipboard.writeText(text).then(function() {{
     btn.classList.add('copied');
-    const toast = document.createElement('span');
-    toast.className = 'copy-toast';
-    toast.textContent = 'Copied!';
-    btn.appendChild(toast);
-    setTimeout(function() {{
-      btn.classList.remove('copied');
-      toast.remove();
-    }}, 1200);
+    setTimeout(function() {{ btn.classList.remove('copied'); }}, 1200);
+    const toast = document.getElementById('global-toast');
+    toast.textContent = 'Copied: ' + text;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() {{ toast.classList.remove('show'); }}, 1500);
   }});
 }}
 
