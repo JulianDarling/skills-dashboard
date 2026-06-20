@@ -291,6 +291,55 @@ h1 {{
   font-size: 12px;
   color: var(--muted);
 }}
+.search-dropdown {{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: none;
+  list-style: none;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}}
+.search-dropdown.open {{ display: block; }}
+.search-dropdown li {{
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  transition: background 0.1s;
+}}
+.search-dropdown li:hover,
+.search-dropdown li.active {{
+  background: #F3F4F6;
+}}
+.search-dropdown .dd-slug {{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+}}
+.search-dropdown .dd-triggers {{
+  font-size: 11px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}}
+.skill-card.highlight {{
+  animation: cardHighlight 1.5s ease;
+}}
+@keyframes cardHighlight {{
+  0% {{ box-shadow: 0 0 0 3px var(--signal); }}
+  100% {{ box-shadow: none; }}
+}}
 .triggers {{
   display: flex;
   flex-wrap: wrap;
@@ -524,6 +573,7 @@ footer {{
 <div class="search-box">
 <input type="text" id="search-input" placeholder="搜索 skill 名称或触发词..." autocomplete="off">
 <span class="search-hint" id="search-hint"></span>
+<ul class="search-dropdown" id="search-dropdown"></ul>
 </div>
 
 <section class="guide">
@@ -657,17 +707,60 @@ loadStats();
 
 const searchInput = document.getElementById('search-input');
 const searchHint = document.getElementById('search-hint');
-const allCards = document.querySelectorAll('main .skill-card');
+const dropdown = document.getElementById('search-dropdown');
+const allCards = document.querySelectorAll('.skill-card[data-slug]');
 const allCategories = document.querySelectorAll('main .category');
+let activeIdx = -1;
+
+function getMatches(q) {{
+  const results = [];
+  allCards.forEach(function(card) {{
+    const slug = card.dataset.slug.toLowerCase();
+    const triggers = (card.dataset.triggers || '').toLowerCase();
+    const desc = card.querySelector('.desc').textContent.toLowerCase();
+    if (slug.includes(q) || triggers.includes(q) || desc.includes(q)) {{
+      results.push({{ slug: card.dataset.slug, triggers: card.dataset.triggers || '', el: card }});
+    }}
+  }});
+  return results;
+}}
+
+function renderDropdown(matches) {{
+  if (matches.length === 0) {{
+    dropdown.classList.remove('open');
+    dropdown.innerHTML = '';
+    return;
+  }}
+  dropdown.innerHTML = matches.map(function(m, i) {{
+    const trigText = m.triggers ? m.triggers.split(' ').slice(0, 4).join(' / ') : '';
+    return '<li data-idx="' + i + '"><span class="dd-slug">/' + m.slug + '</span><span class="dd-triggers">' + trigText + '</span></li>';
+  }}).join('');
+  dropdown.classList.add('open');
+  activeIdx = -1;
+}}
+
+function jumpToCard(card) {{
+  searchInput.blur();
+  dropdown.classList.remove('open');
+  allCards.forEach(c => c.classList.remove('hidden'));
+  allCategories.forEach(c => c.classList.remove('hidden'));
+  card.scrollIntoView({{ behavior: 'smooth', block: 'center' }});
+  card.classList.remove('highlight');
+  void card.offsetWidth;
+  card.classList.add('highlight');
+}}
 
 searchInput.addEventListener('input', function() {{
   const q = this.value.trim().toLowerCase();
   if (!q) {{
     allCards.forEach(c => c.classList.remove('hidden'));
     allCategories.forEach(c => c.classList.remove('hidden'));
+    dropdown.classList.remove('open');
     searchHint.textContent = '';
     return;
   }}
+  const matches = getMatches(q);
+  renderDropdown(matches);
   let count = 0;
   allCards.forEach(function(card) {{
     const slug = card.dataset.slug.toLowerCase();
@@ -682,6 +775,45 @@ searchInput.addEventListener('input', function() {{
     sec.classList.toggle('hidden', visible === 0);
   }});
   searchHint.textContent = count + ' 个匹配';
+}});
+
+searchInput.addEventListener('keydown', function(e) {{
+  const items = dropdown.querySelectorAll('li');
+  if (!items.length) return;
+  if (e.key === 'ArrowDown') {{
+    e.preventDefault();
+    activeIdx = Math.min(activeIdx + 1, items.length - 1);
+    items.forEach((li, i) => li.classList.toggle('active', i === activeIdx));
+  }} else if (e.key === 'ArrowUp') {{
+    e.preventDefault();
+    activeIdx = Math.max(activeIdx - 1, 0);
+    items.forEach((li, i) => li.classList.toggle('active', i === activeIdx));
+  }} else if (e.key === 'Enter' && activeIdx >= 0) {{
+    e.preventDefault();
+    const q = this.value.trim().toLowerCase();
+    const matches = getMatches(q);
+    if (matches[activeIdx]) jumpToCard(matches[activeIdx].el);
+  }}
+}});
+
+dropdown.addEventListener('click', function(e) {{
+  const li = e.target.closest('li');
+  if (!li) return;
+  const idx = parseInt(li.dataset.idx);
+  const q = searchInput.value.trim().toLowerCase();
+  const matches = getMatches(q);
+  if (matches[idx]) jumpToCard(matches[idx].el);
+}});
+
+searchInput.addEventListener('blur', function() {{
+  setTimeout(function() {{ dropdown.classList.remove('open'); }}, 200);
+}});
+searchInput.addEventListener('focus', function() {{
+  const q = this.value.trim().toLowerCase();
+  if (q) {{
+    const matches = getMatches(q);
+    renderDropdown(matches);
+  }}
 }});
 </script>
 </body>
