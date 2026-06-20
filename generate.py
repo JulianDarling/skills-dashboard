@@ -243,12 +243,42 @@ header {{
   padding-bottom: 24px;
   border-bottom: 1px solid var(--border);
 }}
+.header-row {{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}}
 h1 {{
   font-family: 'JetBrains Mono', monospace;
   font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.5px;
-  margin-bottom: 12px;
+}}
+.refresh-btn {{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}}
+.refresh-btn:hover {{ color: var(--ink); border-color: var(--ink); }}
+.refresh-btn.running {{
+  color: var(--signal);
+  border-color: var(--signal);
+}}
+.refresh-btn.running svg {{
+  animation: spin 0.8s linear infinite;
+}}
+@keyframes spin {{
+  from {{ transform: rotate(0deg); }}
+  to {{ transform: rotate(360deg); }}
 }}
 .stats-bar {{
   display: flex;
@@ -334,10 +364,17 @@ h1 {{
   white-space: nowrap;
 }}
 .skill-card.highlight {{
-  animation: cardHighlight 1.5s ease;
+  animation: cardHighlight 2.4s ease;
+  transform: translateY(-3px);
+  z-index: 10;
+  position: relative;
 }}
 @keyframes cardHighlight {{
-  0% {{ box-shadow: 0 0 0 3px var(--signal); }}
+  0%   {{ box-shadow: 0 0 0 3px var(--signal), 0 0 16px rgba(37,99,235,0.25); }}
+  20%  {{ box-shadow: 0 0 0 1px var(--signal), 0 0 4px rgba(37,99,235,0.1); }}
+  40%  {{ box-shadow: 0 0 0 3px var(--signal), 0 0 16px rgba(37,99,235,0.25); }}
+  60%  {{ box-shadow: 0 0 0 1px var(--signal), 0 0 4px rgba(37,99,235,0.1); }}
+  80%  {{ box-shadow: 0 0 0 3px var(--signal), 0 0 12px rgba(37,99,235,0.2); }}
   100% {{ box-shadow: none; }}
 }}
 .triggers {{
@@ -561,7 +598,13 @@ footer {{
 </head>
 <body>
 <header>
+<div class="header-row">
 <h1>SKILLS 使用手册</h1>
+<button class="refresh-btn" onclick="regenerate()" title="重新扫描 skills 并刷新页面">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+<span>刷新</span>
+</button>
+</div>
 <div class="stats-bar">
 <span><span class="stat-value">{total_installed}</span> 已安装</span>
 <span><span class="stat-value stat-active" id="stat-active">—</span> 本周活跃</span>
@@ -704,6 +747,15 @@ async function loadStats() {{
 }}
 
 loadStats();
+
+function regenerate() {{
+  const btn = document.querySelector('.refresh-btn');
+  btn.classList.add('running');
+  btn.querySelector('span').textContent = '刷新中...';
+  setTimeout(function() {{
+    location.reload();
+  }}, 300);
+}}
 
 const searchInput = document.getElementById('search-input');
 const searchHint = document.getElementById('search-hint');
