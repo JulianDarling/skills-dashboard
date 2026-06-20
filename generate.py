@@ -133,6 +133,8 @@ def generate_html(skills: list) -> str:
 
     grouped = {}
     for s in skills:
+        if s["slug"] == "skill-creator":
+            continue
         cat = s["category"]
         grouped.setdefault(cat, []).append(s)
 
@@ -166,7 +168,7 @@ def generate_html(skills: list) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skills Dashboard</title>
+<title>Skills 使用手册</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -215,6 +217,67 @@ h1 {{
 }}
 .stats-bar .stat-active {{ color: var(--pulse); font-weight: 600; }}
 .stats-bar .stat-invocations {{ color: var(--signal); font-weight: 600; }}
+.guide {{
+  margin-bottom: 48px;
+  padding: 32px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+}}
+.guide-title {{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  color: var(--ink);
+  text-transform: none;
+  letter-spacing: 0;
+  padding-left: 0;
+  border-left: none;
+}}
+.guide-content {{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}}
+.guide-level h3 {{
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}}
+.guide-level p {{
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}}
+.guide-level code {{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  background: #F3F4F6;
+  padding: 2px 6px;
+  color: var(--ink);
+}}
+.creator-highlight {{
+  margin-bottom: 48px;
+}}
+.creator-highlight h2 {{
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  padding-left: 20px;
+  border-left: 3px solid;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}}
+.skill-card.featured {{
+  border-color: var(--warm);
+  border-width: 1.5px;
+}}
 .category {{
   margin-bottom: 40px;
 }}
@@ -355,14 +418,56 @@ footer {{
 </head>
 <body>
 <header>
-<h1>SKILLS DASHBOARD</h1>
+<h1>SKILLS 使用手册</h1>
 <div class="stats-bar">
-<span><span class="stat-value">{total_installed}</span> installed</span>
-<span><span class="stat-value stat-active" id="stat-active">—</span> active this week</span>
-<span><span class="stat-value stat-invocations" id="stat-total">—</span> total invocations</span>
-<span>Skills scanned: {now.strftime("%Y-%m-%d %H:%M")}</span>
+<span><span class="stat-value">{total_installed}</span> 已安装</span>
+<span><span class="stat-value stat-active" id="stat-active">—</span> 本周活跃</span>
+<span><span class="stat-value stat-invocations" id="stat-total">—</span> 累计调用</span>
+<span>更新于 {now.strftime("%Y-%m-%d %H:%M")}</span>
 </div>
 </header>
+
+<section class="guide">
+<h2 class="guide-title">Skill 是什么、怎么用</h2>
+<div class="guide-content">
+<div class="guide-level">
+<h3>基础用法</h3>
+<p>在 Claude Code 对话中输入 <code>/skill名称</code> 即可触发。例如输入 <code>/research-plan</code> 会启动调研方案设计流程。</p>
+<p>你也可以直接用自然语言描述需求，Claude 会自动识别并触发对应 skill。例如说"帮我写个调研方案"会自动触发 <code>/research-plan</code>。</p>
+</div>
+<div class="guide-level">
+<h3>进阶用法</h3>
+<p>Skill 可以组合使用：先用 <code>/research-plan</code> 设计方案，再用 <code>/persuasion-proposal</code> 把方案包装成提案。</p>
+<p>Skill 的 description 决定触发灵敏度——写得越具体，自然语言触发越精准。你可以用 <code>/skill-creator</code> 调整已有 skill 的触发词。</p>
+</div>
+<div class="guide-level">
+<h3>高级用法：创建你自己的 Skill</h3>
+<p>当你发现某个工作流反复出现（写报告、整理数据、生成特定格式的输出），就应该把它固化为 skill。</p>
+<p>输入 <code>/skill-creator</code> 进入创建流程：描述意图 → 生成 SKILL.md → 测试触发 → 迭代优化。你的所有自定义 skill 存放在 <code>F:\\_环境\\claude\\commands\\</code>。</p>
+</div>
+</div>
+</section>
+
+<section class="creator-highlight">
+<h2 style="border-color:#7C3AED"><span class="cat-dot" style="background:#7C3AED"></span>Skill 工厂</h2>
+<div class="grid">
+<article class="skill-card featured" data-slug="skill-creator">
+<div class="signal-bar" style="background:var(--warm)"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/skill-creator</code>
+<button class="copy-btn" onclick="copySlug(this, '/skill-creator')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<p class="desc expanded">创建新 skill、修改已有 skill、运行评估测试 skill 触发准确度。当你发现一个反复出现的工作模式，用这个 skill 把它固化下来。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+</div>
+</section>
+
 <main>
 {cards_html}
 </main>
