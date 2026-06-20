@@ -1,19 +1,18 @@
-"""Skills Dashboard Generator — scans installed skills, reads usage log, outputs HTML."""
+"""Skills Dashboard Generator — scans installed skills, outputs HTML with live stats."""
 
 import sys
 import json
 import re
 from pathlib import Path
-from datetime import datetime, timedelta, timezone
-from collections import Counter
+from datetime import datetime
 
 sys.stdout.reconfigure(encoding="utf-8")
 
 COMMANDS_DIR = Path(r"F:\_环境\claude\commands")
-USAGE_LOG = Path(r"F:\04_利安工坊\repos\skills-dashboard\data\usage.jsonl")
-OUTPUT_FILE = Path(r"F:\04_利安工坊\output\skills-dashboard.html")
+OUTPUT_DIR = Path(r"F:\04_利安工坊\output")
+OUTPUT_FILE = OUTPUT_DIR / "skills-dashboard.html"
 
-CATEGORIES = {
+CATEGORIES_FALLBACK = {
     "research-plan": "Research & Analysis",
     "survey-data-analysis": "Research & Analysis",
     "in-app-research": "Research & Analysis",
@@ -80,6 +79,7 @@ def parse_skill(filepath: Path, slug_override: str = None) -> dict:
     slug = slug_override or filepath.stem
     name = slug
     description = ""
+    category = None
 
     fm_match = re.match(r"^---\s*\n(.+?)\n---", text, re.DOTALL)
     if fm_match:
@@ -87,6 +87,10 @@ def parse_skill(filepath: Path, slug_override: str = None) -> dict:
         name_match = re.search(r"^name:\s*(.+)$", fm_block, re.MULTILINE)
         if name_match:
             name = name_match.group(1).strip().strip("\"'")
+
+        cat_match = re.search(r"^category:\s*(.+)$", fm_block, re.MULTILINE)
+        if cat_match:
+            category = cat_match.group(1).strip().strip("\"'")
 
         desc_match = re.search(
             r"^description:\s*[|>]?-?\s*\n((?:\s+.+\n)+)", fm_block, re.MULTILINE
@@ -107,109 +111,52 @@ def parse_skill(filepath: Path, slug_override: str = None) -> dict:
             first = lines[0].lstrip("# ")
             description = first
 
+    if not category:
+        category = CATEGORIES_FALLBACK.get(slug, "Uncategorized")
+
     return {
         "slug": slug,
         "name": name,
         "description": description,
-        "category": CATEGORIES.get(slug, "Uncategorized"),
+        "category": category,
     }
 
 
-def read_usage_stats() -> dict:
-    total = Counter()
-    last_7d = Counter()
-    last_used = {}
-
-    if not USAGE_LOG.exists():
-        return {"total": total, "last_7d": last_7d, "last_used": last_used}
-
-    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
-
-    for line in USAGE_LOG.read_text(encoding="utf-8").strip().split("\n"):
-        if not line.strip():
-            continue
-        try:
-            record = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        skill = record.get("skill", "")
-        ts_str = record.get("timestamp", "")
-        if not skill or not ts_str:
-            continue
-        try:
-            ts = datetime.fromisoformat(ts_str.replace("Z", "+00:00"))
-        except ValueError:
-            continue
-        total[skill] += 1
-        if ts > cutoff:
-            last_7d[skill] += 1
-        if skill not in last_used or ts > last_used[skill]:
-            last_used[skill] = ts
-
-    return {"total": total, "last_7d": last_7d, "last_used": last_used}
-
-
-def truncate(text: str, length: int = 120) -> str:
-    if len(text) <= length:
-        return text
-    return text[: length - 1] + "…"
-
-
 def escape_html(text: str) -> str:
-    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;").replace("'", "&#39;")
 
 
-def frequency_class(count_7d: int) -> str:
-    if count_7d == 0:
-        return "idle"
-    if count_7d <= 3:
-        return "low"
-    if count_7d <= 10:
-        return "mid"
-    return "high"
-
-
-def generate_html(skills: list, stats: dict) -> str:
+def generate_html(skills: list) -> str:
     now = datetime.now()
     total_installed = len(skills)
-    active_7d = sum(1 for s in skills if stats["last_7d"].get(s["slug"], 0) > 0)
-    total_invocations = sum(stats["total"].values())
+    skills_json = json.dumps(skills, ensure_ascii=False)
 
     grouped = {}
     for s in skills:
         cat = s["category"]
         grouped.setdefault(cat, []).append(s)
 
-    for cat in grouped:
-        grouped[cat].sort(key=lambda x: -stats["last_7d"].get(x["slug"], 0))
-
     cards_html = ""
     for cat in CATEGORY_ORDER:
         if cat not in grouped:
             continue
-        color = CATEGORY_COLORS[cat]
-        cards_html += f'<section class="category"><h2 style="border-color:{color}"><span class="cat-dot" style="background:{color}"></span>{escape_html(cat)}</h2><div class="grid">\n'
+        color = CATEGORY_COLORS.get(cat, "#9CA3AF")
+        cards_html += f'<section class="category" data-cat="{escape_html(cat)}"><h2 style="border-color:{color}"><span class="cat-dot" style="background:{color}"></span>{escape_html(cat)}</h2><div class="grid">\n'
         for s in grouped[cat]:
             slug = s["slug"]
-            freq = frequency_class(stats["last_7d"].get(slug, 0))
-            count_total = stats["total"].get(slug, 0)
-            count_7d = stats["last_7d"].get(slug, 0)
-            desc_short = escape_html(truncate(s["description"]))
-            desc_full = escape_html(s["description"])
-            cards_html += f'''<article class="skill-card freq-{freq}" title="{desc_full}">
-<div class="signal-bar" style="--cat-color:{color}"></div>
+            desc = escape_html(s["description"])
+            cards_html += f'''<article class="skill-card" data-slug="{escape_html(slug)}">
+<div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/{escape_html(slug)}</code>
-<button class="copy-btn" onclick="copySlug(this, '/{escape_html(slug)}')" title="Copy to clipboard">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<button class="copy-btn" onclick="copySlug(this, '/{escape_html(slug)}')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
 </button>
 </div>
-<p class="desc">{desc_short}</p>
-<div class="usage-line">
-<span class="count-total">{count_total} total</span>
-<span class="count-7d">{count_7d} / 7d</span>
-</div>
+<p class="desc">{desc}</p>
+<div class="usage-line"></div>
 </div>
 </article>\n'''
         cards_html += "</div></section>\n"
@@ -311,39 +258,62 @@ h1 {{
   top: 0;
   bottom: 0;
   width: 3px;
-  background: var(--idle);
-  transition: background 0.3s;
+  background: transparent;
 }}
-.freq-low .signal-bar {{
-  background: var(--signal);
-  height: 40%;
-  bottom: auto;
-  top: 30%;
-}}
-.freq-mid .signal-bar {{
-  background: var(--warm);
-  height: 70%;
-  bottom: auto;
-  top: 15%;
-}}
-.freq-high .signal-bar {{
-  background: var(--pulse);
-  animation: pulse 2s ease-in-out infinite;
-}}
+.skill-card.freq-low .signal-bar {{ background: var(--signal); }}
+.skill-card.freq-mid .signal-bar {{ background: var(--warm); }}
+.skill-card.freq-high .signal-bar {{ background: var(--pulse); animation: pulse 2s ease-in-out infinite; }}
 @keyframes pulse {{
   0%, 100% {{ opacity: 1; }}
   50% {{ opacity: 0.5; }}
 }}
-.freq-idle {{ opacity: 0.75; }}
-.freq-idle:hover {{ opacity: 1; }}
 .card-body {{ position: relative; }}
+.card-header {{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}}
 .slug {{
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
   font-weight: 500;
   color: var(--ink);
-  display: block;
-  margin-bottom: 6px;
+}}
+.copy-btn {{
+  background: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  padding: 4px 6px;
+  color: var(--muted);
+  transition: color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  position: relative;
+}}
+.copy-btn:hover {{ color: var(--ink); border-color: var(--ink); }}
+.copy-btn.copied {{ color: var(--pulse); border-color: var(--pulse); }}
+.copy-btn.copied .icon-copy {{ display: none !important; }}
+.copy-btn.copied .icon-check {{ display: block !important; }}
+.copy-toast {{
+  position: absolute;
+  top: -28px;
+  right: 0;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--pulse);
+  background: white;
+  border: 1px solid var(--pulse);
+  padding: 2px 8px;
+  white-space: nowrap;
+  animation: fadeInOut 1.2s ease forwards;
+  pointer-events: none;
+}}
+@keyframes fadeInOut {{
+  0% {{ opacity: 0; transform: translateY(4px); }}
+  15% {{ opacity: 1; transform: translateY(0); }}
+  75% {{ opacity: 1; }}
+  100% {{ opacity: 0; }}
 }}
 .desc {{
   font-size: 12px;
@@ -354,35 +324,22 @@ h1 {{
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+}}
+.desc.expanded {{
+  -webkit-line-clamp: unset;
+  display: block;
 }}
 .usage-line {{
   display: flex;
   justify-content: space-between;
   font-size: 11px;
   font-family: 'JetBrains Mono', monospace;
+  min-height: 16px;
 }}
-.card-header {{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}}
-.card-header .slug {{ margin-bottom: 0; }}
-.copy-btn {{
-  background: none;
-  border: 1px solid var(--border);
-  cursor: pointer;
-  padding: 4px 6px;
-  color: var(--muted);
-  transition: color 0.15s, border-color 0.15s;
-  display: flex;
-  align-items: center;
-}}
-.copy-btn:hover {{ color: var(--ink); border-color: var(--ink); }}
-.copy-btn.copied {{ color: var(--pulse); border-color: var(--pulse); }}
 .count-total {{ color: var(--muted); }}
 .count-7d {{ color: var(--signal); font-weight: 500; }}
-.freq-idle .count-7d {{ color: var(--idle); }}
 footer {{
   margin-top: 48px;
   padding-top: 16px;
@@ -401,9 +358,9 @@ footer {{
 <h1>SKILLS DASHBOARD</h1>
 <div class="stats-bar">
 <span><span class="stat-value">{total_installed}</span> installed</span>
-<span><span class="stat-value">{active_7d}</span> active this week</span>
-<span><span class="stat-value">{total_invocations}</span> total invocations</span>
-<span>Generated: {now.strftime("%Y-%m-%d %H:%M")}</span>
+<span><span class="stat-value" id="stat-active">—</span> active this week</span>
+<span><span class="stat-value" id="stat-total">—</span> total invocations</span>
+<span>Skills scanned: {now.strftime("%Y-%m-%d %H:%M")}</span>
 </div>
 </header>
 <main>
@@ -413,12 +370,85 @@ footer {{
 Skills Dashboard &mdash; scanned from F:\\_环境\\claude\\commands\\
 </footer>
 <script>
+const USAGE_LOG_PATH = 'usage.jsonl';
+
 function copySlug(btn, text) {{
   navigator.clipboard.writeText(text).then(function() {{
     btn.classList.add('copied');
-    setTimeout(function() {{ btn.classList.remove('copied'); }}, 1200);
+    const toast = document.createElement('span');
+    toast.className = 'copy-toast';
+    toast.textContent = 'Copied!';
+    btn.appendChild(toast);
+    setTimeout(function() {{
+      btn.classList.remove('copied');
+      toast.remove();
+    }}, 1200);
   }});
 }}
+
+document.querySelectorAll('.desc').forEach(function(el) {{
+  el.addEventListener('click', function() {{
+    this.classList.toggle('expanded');
+  }});
+}});
+
+async function loadStats() {{
+  let lines;
+  try {{
+    const resp = await fetch(USAGE_LOG_PATH);
+    if (!resp.ok) return;
+    const text = await resp.text();
+    lines = text.trim().split('\\n').filter(Boolean);
+  }} catch(e) {{ return; }}
+
+  const now = Date.now();
+  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+  const total = {{}};
+  const last7d = {{}};
+
+  for (const line of lines) {{
+    try {{
+      const rec = JSON.parse(line);
+      const skill = rec.skill;
+      const ts = new Date(rec.timestamp).getTime();
+      total[skill] = (total[skill] || 0) + 1;
+      if (now - ts < sevenDays) {{
+        last7d[skill] = (last7d[skill] || 0) + 1;
+      }}
+    }} catch(e) {{ continue; }}
+  }}
+
+  let totalCount = 0;
+  let activeCount = 0;
+
+  document.querySelectorAll('.skill-card').forEach(function(card) {{
+    const slug = card.dataset.slug;
+    const t = total[slug] || 0;
+    const w = last7d[slug] || 0;
+    totalCount += t;
+    if (w > 0) activeCount++;
+
+    const usageLine = card.querySelector('.usage-line');
+    if (t > 0) {{
+      usageLine.innerHTML = '<span class="count-total">' + t + ' total</span><span class="count-7d">' + w + ' / 7d</span>';
+    }}
+
+    if (w === 0) {{
+      // no signal bar, no class
+    }} else if (w <= 3) {{
+      card.classList.add('freq-low');
+    }} else if (w <= 10) {{
+      card.classList.add('freq-mid');
+    }} else {{
+      card.classList.add('freq-high');
+    }}
+  }});
+
+  document.getElementById('stat-active').textContent = activeCount;
+  document.getElementById('stat-total').textContent = totalCount;
+}}
+
+loadStats();
 </script>
 </body>
 </html>"""
@@ -435,13 +465,12 @@ def main():
         if d.is_dir() and (d / "SKILL.md").exists():
             skills.append(parse_skill(d / "SKILL.md", slug_override=d.name))
 
-    stats = read_usage_stats()
-    html = generate_html(skills, stats)
+    html = generate_html(skills)
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text(html, encoding="utf-8")
     print(f"Generated: {OUTPUT_FILE}")
-    print(f"  {len(skills)} skills, {sum(stats['total'].values())} total invocations logged")
+    print(f"  {len(skills)} skills")
 
 
 if __name__ == "__main__":
