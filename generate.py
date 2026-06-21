@@ -88,29 +88,29 @@ TRIGGERS = {
     "duplicates": ["查重", "重复文件", "找重复"],
     "desktop": ["清理桌面", "桌面整理"],
     "scan": ["扫描目录", "文件索引", "目录清单"],
-    "in-app-research": ["端内调研", "端内问卷", "app内研究"],
+    "in-app-research": ["端内调研", "端内问卷", "app 内研究"],
     "competitor-questionnaire": ["竞品问卷", "竞品调查问卷"],
     "survey-localization-qa": ["问卷校对", "本地化校对", "翻译校对"],
     "purchase-request": ["采购申请", "预算申请", "采购"],
     "survey-data-analysis": ["问卷数据", "数据清洗", "问卷分析"],
     "aihot": ["AI 资讯", "AI 日报", "AI 圈", "AI 热点", "AI 新闻"],
     "docx": ["Word 文档", ".docx", "报告", "memo", "letter"],
-    "pdf": ["PDF", "合并PDF", "拆分PDF", "OCR"],
+    "pdf": ["PDF", "合并 PDF", "拆分 PDF", "OCR"],
     "pptx": ["PPT", "幻灯片", "演示文稿", "deck", "slides"],
     "xlsx": ["Excel", ".xlsx", "电子表格", "spreadsheet"],
     "doc-coauthoring": ["写文档", "协作撰写", "PRD", "design doc", "RFC"],
     "internal-comms": ["内部沟通", "status report", "3P update", "newsletter"],
-    "frontend-design": ["前端设计", "UI设计", "网页视觉", "landing page"],
+    "frontend-design": ["前端设计", "UI 设计", "网页视觉", "landing page"],
     "canvas-design": ["海报", "视觉艺术", "静态设计", "poster"],
     "algorithmic-art": ["生成艺术", "算法艺术", "p5.js", "flow field"],
-    "slack-gif-creator": ["Slack GIF", "动画GIF", "emoji动图"],
+    "slack-gif-creator": ["Slack GIF", "动画 GIF", "emoji 动图"],
     "theme-factory": ["主题配色", "styling", "配色方案"],
-    "web-artifacts-builder": ["React组件", "shadcn", "HTML artifact"],
-    "brand-guidelines": ["品牌配色", "Anthropic风格", "brand colors"],
-    "mcp-builder": ["MCP服务器", "MCP server", "tool integration"],
-    "webapp-testing": ["Playwright", "浏览器测试", "UI测试"],
+    "web-artifacts-builder": ["React 组件", "shadcn", "HTML artifact"],
+    "brand-guidelines": ["品牌配色", "Anthropic 风格", "brand colors"],
+    "mcp-builder": ["MCP 服务器", "MCP server", "tool integration"],
+    "webapp-testing": ["Playwright", "浏览器测试", "UI 测试"],
     "claude-api": ["Claude API", "Anthropic SDK", "model pricing"],
-    "skill-creator": ["创建skill", "修改skill", "skill评估", "触发优化"],
+    "skill-creator": ["创建 skill", "修改 skill", "skill 评估", "触发优化"],
     "neat-freak": ["同步文档", "整理记忆", "tidy up", "收尾"],
 }
 
@@ -222,7 +222,7 @@ def generate_html(skills: list) -> str:
   --ink: #1A1A2E;
   --muted: #4B5563;
   --signal: #2563EB;
-  --idle: #D1D5DB;
+  --idle: #9CA3AF;
   --pulse: #059669;
   --warm: #D97706;
   --card-bg: #FFFFFF;
@@ -230,13 +230,13 @@ def generate_html(skills: list) -> str:
 }}
 * {{ margin: 0; padding: 0; box-sizing: border-box; }}
 body {{
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
   background: var(--bg);
   color: var(--ink);
   padding: 40px 48px;
   max-width: 1400px;
   margin: 0 auto;
-  line-height: 1.5;
+  line-height: 1.6;
 }}
 header {{
   margin-bottom: 48px;
@@ -298,7 +298,7 @@ h1 {{
 }}
 #search-input {{
   width: 100%;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: inherit;
   font-size: 14px;
   padding: 12px 16px;
   border: 1px solid var(--border);
@@ -357,7 +357,7 @@ h1 {{
   white-space: nowrap;
 }}
 .search-dropdown .dd-triggers {{
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -384,11 +384,11 @@ h1 {{
   margin-bottom: 8px;
 }}
 .trigger-tag {{
-  font-size: 11px;
-  padding: 2px 8px;
+  font-size: 12px;
+  padding: 3px 10px;
   background: #F3F4F6;
   color: var(--muted);
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   white-space: nowrap;
 }}
 .skill-card.hidden {{
@@ -483,7 +483,7 @@ h1 {{
 .grid {{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 12px;
+  gap: 16px;
 }}
 .skill-card {{
   position: relative;
@@ -559,7 +559,7 @@ h1 {{
   transform: translateX(-50%) translateY(0);
 }}
 .desc {{
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   line-height: 1.6;
   margin-bottom: 10px;
@@ -643,7 +643,7 @@ footer {{
 <section class="creator-highlight">
 <h2 style="border-color:#7C3AED"><span class="cat-dot" style="background:#7C3AED"></span>Skill 工厂</h2>
 <div class="grid">
-<article class="skill-card featured" data-slug="skill-creator" data-triggers="创建skill 修改skill skill评估 触发优化">
+<article class="skill-card featured" data-slug="skill-creator" data-triggers="创建 skill 修改 skill skill 评估 触发优化">
 <div class="signal-bar" style="background:var(--warm)"></div>
 <div class="card-body">
 <div class="card-header">
@@ -653,7 +653,7 @@ footer {{
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
 </button>
 </div>
-<div class="triggers"><span class="trigger-tag">创建skill</span><span class="trigger-tag">修改skill</span><span class="trigger-tag">skill评估</span><span class="trigger-tag">触发优化</span></div>
+<div class="triggers"><span class="trigger-tag">创建 skill</span><span class="trigger-tag">修改 skill</span><span class="trigger-tag">skill 评估</span><span class="trigger-tag">触发优化</span></div>
 <p class="desc expanded">创建新 skill、修改已有 skill、运行评估测试 skill 触发准确度。当你发现一个反复出现的工作模式，用这个 skill 把它固化下来。</p>
 <div class="usage-line"></div>
 </div>
