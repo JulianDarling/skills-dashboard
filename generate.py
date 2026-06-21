@@ -620,22 +620,22 @@ footer {{
 </div>
 
 <section class="guide">
-<h2 class="guide-title">Skill 是什么、怎么用</h2>
+<h2 class="guide-title">30 秒学会用 Skill</h2>
 <div class="guide-content">
 <div class="guide-level">
-<h3>基础用法</h3>
-<p>在 Claude Code 对话中输入 <code>/skill名称</code> 即可触发。例如输入 <code>/research-plan</code> 会启动调研方案设计流程。</p>
-<p>你也可以直接用自然语言描述需求，Claude 会自动识别并触发对应 skill。例如说"帮我写个调研方案"会自动触发 <code>/research-plan</code>。</p>
+<h3>你只需要说话</h3>
+<p>不用记命令。直接跟 Claude 描述你要做的事，它会自动找到对应的 skill 并执行。比如你说"帮我设计个调研方案"，它就知道该用 <code>/research-plan</code>。</p>
+<p>每张卡片下面的灰色标签就是触发词——你说出其中任何一个词，skill 就会启动。</p>
 </div>
 <div class="guide-level">
-<h3>进阶用法</h3>
-<p>Skill 可以组合使用：先用 <code>/research-plan</code> 设计方案，再用 <code>/persuasion-proposal</code> 把方案包装成提案。</p>
-<p>Skill 的 description 决定触发灵敏度——写得越具体，自然语言触发越精准。你可以用 <code>/skill-creator</code> 调整已有 skill 的触发词。</p>
+<h3>想精确控制时</h3>
+<p>输入 <code>/</code> 加 skill 名称可以强制触发。适合你明确知道要用哪个、不想等 Claude 猜的时候。</p>
+<p>两个 skill 可以接力：先 <code>/research-plan</code> 出方案，再 <code>/persuasion-proposal</code> 包装成提案给老板。前一个的产出就是后一个的输入。</p>
 </div>
 <div class="guide-level">
-<h3>高级用法：创建你自己的 Skill</h3>
-<p>当你发现某个工作流反复出现（写报告、整理数据、生成特定格式的输出），就应该把它固化为 skill。</p>
-<p>输入 <code>/skill-creator</code> 进入创建流程：描述意图 → 生成 SKILL.md → 测试触发 → 迭代优化。你的所有自定义 skill 存放在 <code>F:\\_环境\\claude\\commands\\</code>。</p>
+<h3>觉得某件事你总在重复做？</h3>
+<p>那就该把它变成 skill。跟 Claude 说"帮我创建一个 skill"或者直接 <code>/skill-creator</code>，描述你每次重复的工作流程，它会帮你生成一个可复用的 skill 文件。</p>
+<p>下次再遇到同样的事，一句话就触发整套流程。这就是 skill 的价值——把经验固化成自动化。</p>
 </div>
 </div>
 </section>
