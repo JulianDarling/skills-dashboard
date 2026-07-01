@@ -51,6 +51,17 @@ CATEGORIES_FALLBACK = {
     "mcp-builder": "Developer Tools",
     "webapp-testing": "Developer Tools",
     "claude-api": "Developer Tools",
+    "darwin-skill": "Developer Tools",
+    "nuwa": "Knowledge & Learning",
+    "julian": "Knowledge & Learning",
+    "phone-in": "Workflow & Automation",
+    "phone-out": "Workflow & Automation",
+    "vox": "Workflow & Automation",
+    "writing-style": "Workflow & Automation",
+    "dashboard-creator": "Creative & Design",
+    "demand-detective": "Research & Analysis",
+    "vendor-support-email": "Documents & Output",
+    "file-management": "File & System",
 }
 
 CATEGORY_COLORS = {
@@ -60,6 +71,7 @@ CATEGORY_COLORS = {
     "Creative & Design": "#DB2777",
     "File & System": "#0D9488",
     "Developer Tools": "#475569",
+    "Workflow & Automation": "#D97706",
     "Uncategorized": "#6B7280",
 }
 

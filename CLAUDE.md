@@ -6,11 +6,24 @@ Skills 清单可视化 + 使用频次追踪。扫描 `F:\_环境\claude\commands
 
 ```
 generate.py          # 主脚本：扫描 → 解析 frontmatter → 输出 HTML（统计由前端 JS 实时计算）
+index.html           # 生成的 dashboard HTML，push 到 GitHub Pages 展示
 usage-log-hook.sh    # PostToolUse 钩子，每次 Skill 调用追加一行 JSON
 ```
 
 输出位置：`F:\04_利安工坊\output\skills-dashboard.html`
 使用日志：`F:\04_利安工坊\output\usage.jsonl`（与 HTML 同目录，前端 fetch 读取）
+在线展示：`https://juliandarling.github.io/skills-dashboard/`
+
+## 部署流程
+
+```bash
+python generate.py
+cp F:\04_利安工坊\output\skills-dashboard.html F:\04_利安工坊\repos\skills-dashboard\index.html
+cd F:\04_利安工坊\repos\skills-dashboard
+git add index.html && git commit -m "update dashboard" && git push
+```
+
+Remote: `https://github.com/JulianDarling/skills-dashboard.git`（注意大写 J 和 D）
 
 ## 运行
 
