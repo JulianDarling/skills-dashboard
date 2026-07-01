@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills 使用手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAFA;
+  --ink: #1A1A2E;
+  --muted: #4B5563;
+  --signal: #2563EB;
+  --idle: #9CA3AF;
+  --pulse: #059669;
+  --warm: #D97706;
+  --card-bg: #FFFFFF;
+  --border: #E5E7EB;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  padding: 40px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+header {
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.refresh-btn:hover { color: var(--ink); border-color: var(--ink); }
+.refresh-btn.running { color: var(--signal); border-color: var(--signal); }
+.refresh-btn.running svg { animation: spin 0.8s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.stats-bar {
+  display: flex;
+  gap: 24px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.stats-bar .stat-value { font-weight: 600; color: var(--ink); }
+.stats-bar .stat-active { color: var(--pulse); font-weight: 600; }
+.stats-bar .stat-invocations { color: var(--signal); font-weight: 600; }
+.search-box { margin-bottom: 32px; position: relative; }
+#search-input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+}
+#search-input:focus { border-color: var(--signal); }
+#search-input::placeholder { color: var(--idle); }
+.search-hint {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--muted);
+}
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: none;
+  list-style: none;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.search-dropdown.open { display: block; }
+.search-dropdown li {
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  transition: background 0.1s;
+}
+.search-dropdown li:hover, .search-dropdown li.active { background: #F3F4F6; }
+.search-dropdown .dd-slug {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.search-dropdown .dd-triggers {
+  font-size: 12px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-card.highlight {
+  animation: cardHighlight 2.4s ease;
+  transform: translateY(-3px);
+  z-index: 10;
+  position: relative;
+}
+@keyframes cardHighlight {
+  0%   { box-shadow: 0 0 0 3px var(--signal), 0 0 16px rgba(37,99,235,0.25); }
+  20%  { box-shadow: 0 0 0 1px var(--signal), 0 0 4px rgba(37,99,235,0.1); }
+  40%  { box-shadow: 0 0 0 3px var(--signal), 0 0 16px rgba(37,99,235,0.25); }
+  60%  { box-shadow: 0 0 0 1px var(--signal), 0 0 4px rgba(37,99,235,0.1); }
+  80%  { box-shadow: 0 0 0 3px var(--signal), 0 0 12px rgba(37,99,235,0.2); }
+  100% { box-shadow: none; }
+}
+.triggers { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.trigger-tag {
+  font-size: 12px;
+  padding: 3px 10px;
+  background: #F3F4F6;
+  color: var(--muted);
+  font-family: inherit;
+  white-space: nowrap;
+}
+.skill-card.hidden { display: none; }
+.category.hidden { display: none; }
+.guide {
+  margin-bottom: 48px;
+  padding: 32px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+}
+.guide-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  color: var(--ink);
+}
+.guide-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.guide-level h3 { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.guide-level p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
+.guide-level code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  background: #F3F4F6;
+  padding: 2px 6px;
+  color: var(--ink);
+}
+.creator-highlight { margin-bottom: 48px; }
+.creator-highlight h2 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  padding-left: 20px;
+  border-left: 3px solid;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.skill-card.featured { border-color: var(--warm); border-width: 1.5px; }
+.category { margin-bottom: 40px; }
+.category h2 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  padding-left: 20px;
+  border-left: 3px solid;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cat-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.skill-card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 16px 16px 16px 20px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+}
+.skill-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.signal-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: transparent;
+}
+.skill-card.freq-low .signal-bar { background: var(--signal); }
+.skill-card.freq-mid .signal-bar { background: var(--warm); }
+.skill-card.freq-high .signal-bar { background: var(--pulse); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.card-body { position: relative; }
+.card-header { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.slug { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; color: var(--ink); flex: 1; }
+.copy-btn {
+  background: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  padding: 4px 6px;
+  color: var(--muted);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  display: flex;
+  align-items: center;
+}
+.copy-btn:hover { color: var(--ink); border-color: var(--ink); }
+.copy-btn.copied { color: var(--pulse); border-color: var(--pulse); background: #ecfdf5; }
+.copy-btn.copied .icon-copy { display: none !important; }
+.copy-btn.copied .icon-check { display: block !important; }
+.star-btn {
+  background: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  padding: 4px 6px;
+  line-height: 1;
+  color: var(--idle);
+  transition: color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+}
+.star-btn:hover { color: var(--warm); border-color: var(--warm); }
+.star-btn.starred { color: var(--warm); border-color: var(--warm); }
+.favorites-section { display: none; }
+.favorites-section.has-items { display: block; }
+.favorites-section h2 { border-color: #D97706; }
+#global-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  color: white;
+  background: var(--ink);
+  padding: 8px 20px;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  z-index: 1000;
+}
+#global-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.desc.expanded { -webkit-line-clamp: unset; display: block; }
+.usage-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  min-height: 16px;
+}
+.count-total { color: var(--muted); }
+.count-7d { color: var(--signal); font-weight: 500; }
+footer {
+  margin-top: 48px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+}
+@media (max-width: 768px) {
+  body { padding: 24px 16px; }
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header>
+<div class="header-row">
+<h1>SKILLS 使用手册</h1>
+<button class="refresh-btn" onclick="regenerate()" title="重新扫描 skills 并刷新页面">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+<span>刷新</span>
+</button>
+</div>
+<div class="stats-bar">
+<span><span class="stat-value">61</span> 已安装</span>
+<span><span class="stat-value stat-active" id="stat-active">—</span> 本周活跃</span>
+<span><span class="stat-value stat-invocations" id="stat-total">—</span> 累计调用</span>
+<span>更新于 2026-07-01 16:03</span>
+</div>
+</header>
+
+<div class="search-box">
+<input type="text" id="search-input" placeholder="搜索 skill 名称或触发词..." autocomplete="off">
+<span class="search-hint" id="search-hint"></span>
+<ul class="search-dropdown" id="search-dropdown"></ul>
+</div>
+
+<section class="guide">
+<h2 class="guide-title">30 秒学会用 Skill</h2>
+<div class="guide-content">
+<div class="guide-level">
+<h3>你只需要说话</h3>
+<p>不用记命令。直接跟 Claude 描述你要做的事，它会自动找到对应的 skill 并执行。比如你说"帮我设计个调研方案"，它就知道该用 <code>/research-plan</code>。</p>
+<p>每张卡片下面的灰色标签就是触发词——你说出其中任何一个词，skill 就会启动。</p>
+</div>
+<div class="guide-level">
+<h3>想精确控制时</h3>
+<p>输入 <code>/</code> 加 skill 名称可以强制触发。适合你明确知道要用哪个、不想等 Claude 猜的时候。</p>
+<p>两个 skill 可以接力：先 <code>/research-plan</code> 出方案，再 <code>/persuasion-proposal</code> 包装成提案给老板。前一个的产出就是后一个的输入。</p>
+</div>
+<div class="guide-level">
+<h3>觉得某件事你总在重复做？</h3>
+<p>那就该把它变成 skill。跟 Claude 说"帮我创建一个 skill"或者直接 <code>/skill-creator</code>，描述你每次重复的工作流程，它会帮你生成一个可复用的 skill 文件。</p>
+<p>下次再遇到同样的事，一句话就触发整套流程。这就是 skill 的价值——把经验固化成自动化。</p>
+</div>
+</div>
+</section>
+
+<section class="creator-highlight">
+<h2 style="border-color:#7C3AED"><span class="cat-dot" style="background:#7C3AED"></span>Skill 工厂</h2>
+<div class="grid">
+<article class="skill-card featured" data-slug="skill-creator" data-triggers="创建 skill|修改 skill|skill 评估|触发优化">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/skill-creator</code>
+<button class="copy-btn" onclick="copySlug(this, '/skill-creator')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">创建 skill</span><span class="trigger-tag">修改 skill</span><span class="trigger-tag">skill 评估</span><span class="trigger-tag">触发优化</span></div>
+<p class="desc">Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+</div>
+</section>
+
+
+<main>
+<section class="category favorites-section" id="favorites-section">
+<h2><span class="cat-dot" style="background:#D97706"></span>常用</h2>
+<div class="grid" id="favorites-grid"></div>
+</section>
+<section class="category" data-cat="Research & Analysis"><h2 style="border-color:#7C3AED"><span class="cat-dot" style="background:#7C3AED"></span>Research & Analysis</h2><div class="grid">
+<article class="skill-card" data-slug="FTUE" data-triggers="体验报告|包体体验|试玩记录|FTUE">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/FTUE</code>
+<button class="copy-btn" onclick="copySlug(this, '/FTUE')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">体验报告</span><span class="trigger-tag">包体体验</span><span class="trigger-tag">试玩记录</span><span class="trigger-tag">FTUE</span></div>
+<p class="desc">体验报告：将包体体验笔记结构化为标准可视化体验报告（HTML + 飞书文档）。 当用户提到体验报告、包体体验、试玩记录、FTUE、帮我整理体验时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="candidate-eval" data-triggers="筛人|选人|看简历|评估候选人|招聘|笔试">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/candidate-eval</code>
+<button class="copy-btn" onclick="copySlug(this, '/candidate-eval')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">筛人</span><span class="trigger-tag">选人</span><span class="trigger-tag">看简历</span><span class="trigger-tag">评估候选人</span><span class="trigger-tag">招聘</span><span class="trigger-tag">笔试</span></div>
+<p class="desc">候选人评估全流程（简历审阅→笔试出题→面试提纲）。 当用户提到筛人、选人、看简历、评估候选人、招聘、笔试、面试时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="competitor-questionnaire" data-triggers="竞品问卷|竞品调查问卷">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/competitor-questionnaire</code>
+<button class="copy-btn" onclick="copySlug(this, '/competitor-questionnaire')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">竞品问卷</span><span class="trigger-tag">竞品调查问卷</span></div>
+<p class="desc">竞品问卷提取与录入。从竞品游戏截图中提取问卷内容，录入飞书表格和问卷库。 当用户提到竞品问卷、竞品调查问卷、提取问卷、问卷截图、截图转问卷、录入问卷时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="in-app-survey" data-triggers="端内调研|端内问卷|设计问卷|问卷题目">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/in-app-survey</code>
+<button class="copy-btn" onclick="copySlug(this, '/in-app-survey')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">端内调研</span><span class="trigger-tag">端内问卷</span><span class="trigger-tag">设计问卷</span><span class="trigger-tag">问卷题目</span></div>
+<p class="desc">端内问卷设计全流程（题目设计、选项打磨、台湾繁中措辞、投放配置）。 当用户提到端内调研、端内问卷、app内研究、设计问卷、问卷题目、投放问卷时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="meeting-minutes" data-triggers="会议纪要|整理会议|会议传达">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/meeting-minutes</code>
+<button class="copy-btn" onclick="copySlug(this, '/meeting-minutes')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">会议纪要</span><span class="trigger-tag">整理会议</span><span class="trigger-tag">会议传达</span></div>
+<p class="desc">会议纪要转写及信息超高颗粒度传达。当用户提到会议纪要、整理会议、会议传达时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="questionnaire-library" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/questionnaire-library</code>
+<button class="copy-btn" onclick="copySlug(this, '/questionnaire-library')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Use when the user says "问卷库" or asks to search, retrieve, recommend, or assemble survey questions from the URU competitor questionnaire library. Reads the fixed Feishu sheet for competitor/user-research questionnaire questions, searches by research theme or query, and can help compose a complete questionnaire from matching items.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="reddit-fetch" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/reddit-fetch</code>
+<button class="copy-btn" onclick="copySlug(this, '/reddit-fetch')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Fetch content from Reddit using the curl JSON API. Use when accessing Reddit URLs, researching topics on Reddit, or when Reddit returns 403/blocked errors.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="research-archivist" data-triggers="入库|资料整理|更新 wiki|整理访谈|建立研究资料库">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/research-archivist</code>
+<button class="copy-btn" onclick="copySlug(this, '/research-archivist')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">入库</span><span class="trigger-tag">资料整理</span><span class="trigger-tag">更新 wiki</span><span class="trigger-tag">整理访谈</span><span class="trigger-tag">建立研究资料库</span></div>
+<p class="desc">Use this skill when the user asks to ingest, organize, archive, or update research source materials, wiki pages, evidence packs, or information packs.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="research-detective" data-triggers="分析访谈|提炼洞察|盲区扫描|找矛盾|证据链|写研究简报|深度分析">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/research-detective</code>
+<button class="copy-btn" onclick="copySlug(this, '/research-detective')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">分析访谈</span><span class="trigger-tag">提炼洞察</span><span class="trigger-tag">盲区扫描</span><span class="trigger-tag">找矛盾</span><span class="trigger-tag">证据链</span><span class="trigger-tag">写研究简报</span><span class="trigger-tag">深度分析</span></div>
+<p class="desc">Use this skill when the user asks to analyze research materials, synthesize findings, write or revise a research report, or turn evidence into conclusions and recommendations.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="research-plan" data-triggers="调研方案|研究设计|用研规划|调研怎么做">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/research-plan</code>
+<button class="copy-btn" onclick="copySlug(this, '/research-plan')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">调研方案</span><span class="trigger-tag">研究设计</span><span class="trigger-tag">用研规划</span><span class="trigger-tag">调研怎么做</span></div>
+<p class="desc">设计用户研究计划/方案。当用户提到调研方案、研究设计、用研规划、调研怎么做时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="research-reviewer" data-triggers="审稿|检查报告|挑问题|验证结论|找反面证据|对抗审查">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/research-reviewer</code>
+<button class="copy-btn" onclick="copySlug(this, '/research-reviewer')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">审稿</span><span class="trigger-tag">检查报告</span><span class="trigger-tag">挑问题</span><span class="trigger-tag">验证结论</span><span class="trigger-tag">找反面证据</span><span class="trigger-tag">对抗审查</span></div>
+<p class="desc">Use this skill when the user asks to review, critique, validate, or quality-check a research report for unsupported claims, weak evidence, missing citations, or overconfident conclusions.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="survey-data-analysis" data-triggers="问卷数据|数据清洗|问卷分析">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/survey-data-analysis</code>
+<button class="copy-btn" onclick="copySlug(this, '/survey-data-analysis')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">问卷数据</span><span class="trigger-tag">数据清洗</span><span class="trigger-tag">问卷分析</span></div>
+<p class="desc">端内问卷数据清洗、分析、可视化与飞书报告输出的完整流程。适用于 SurveyMonkey 导出的 CSV 问卷数据，含多选题处理、人群交叉分析、需求聚类、开放题编码和飞书文档/表格协作。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="survey-localization-qa" data-triggers="问卷校对|本地化校对|翻译校对">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/survey-localization-qa</code>
+<button class="copy-btn" onclick="copySlug(this, '/survey-localization-qa')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">问卷校对</span><span class="trigger-tag">本地化校对</span><span class="trigger-tag">翻译校对</span></div>
+<p class="desc">问卷本地化校对与建议版生成。当用户提到问卷校对、本地化校对、翻译校对、 translation QA、多语言校对时触发。适用于游戏问卷的中译英、英语对多语言校对。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="vendor-support-email" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/vendor-support-email</code>
+<button class="copy-btn" onclick="copySlug(this, '/vendor-support-email')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Draft English support emails to SaaS vendors (especially SurveyMonkey) from Chinese bug reports. Use when the user mentions: support email, vendor email, write to SurveyMonkey, report a bug to vendor, white screen, survey display issue, follow up with support, escalate ticket, or pastes a Feishu message with device info + issue description that needs to be communicated to an English-speaking vendor. Also trigger when the user pastes an email thread and wants help composing a reply."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="writing-style" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/writing-style</code>
+<button class="copy-btn" onclick="copySlug(this, '/writing-style')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">用户的写作风格规范。任何需要产出中文文字的场景（报告、方案、纪要、邮件、飞书文档、分析段落、 审阅批注、团队沟通）都应遵循此 skill。当你要写超过两句话的中文输出时，先加载这个 skill。 即使用户没有提到"写作"或"风格"，只要输出是面向人类读者的文字，就应该触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+</div></section>
+<section class="category" data-cat="Knowledge & Learning"><h2 style="border-color:#4F46E5"><span class="cat-dot" style="background:#4F46E5"></span>Knowledge & Learning</h2><div class="grid">
+<article class="skill-card" data-slug="aihot" data-triggers="AI 资讯|AI 日报|AI 圈|AI 热点|AI 新闻">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/aihot</code>
+<button class="copy-btn" onclick="copySlug(this, '/aihot')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">AI 资讯</span><span class="trigger-tag">AI 日报</span><span class="trigger-tag">AI 圈</span><span class="trigger-tag">AI 热点</span><span class="trigger-tag">AI 新闻</span></div>
+<p class="desc">AI HOT (aihot.virxact.com) 中文 AI 资讯查询 Skill。当用户想知道"今天 AI 圈有什么"、"AI 日报"、"AI HOT"、"AI 资讯"、"AI 热点"、"最近 AI"、"OpenAI/Anthropic/Google 最近发布了什么"、"AI hot today"、"AI news today"、"看一下 AI 行业动态"、"今天有什么大模型发布"、"昨天 AI 圈"、"看下精选条目"、"AI HOT 精选"、"最近一周的 AI 论文"、"AI 模型发布"、"AI 产品发布"、"AI 行业动态"、"AI 技巧与观点" 等任何中文 AI 资讯查询时使用。即使用户只说"AI 圈"、"AI 新闻"、"AI 日报"，或者只是问"今天发生了什么"且上下文是 AI / 大模型 / LLM / 创业领域，也应该触发本 Skill。Skill 会直接 curl 公开 REST API 拉数据并整理成中文 markdown 简报，不需要用户配置任何 API Key 或 MCP server。**不要 undertrigger**——用户问 AI 资讯而你不调本 Skill 就是把过时的训练数据当作今日新闻，对用户有害。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="book-study" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/book-study</code>
+<button class="copy-btn" onclick="copySlug(this, '/book-study')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Reading coach: guides users through books systematically with knowledge compilation, mastery testing, spaced repetition, and knowledge querying. Use when user says 'read this book with me', 'book study', 'start studying X', 'reading plan', 'ingest this chapter', 'review what I read', 'quiz me on the book', 'what did the book say about X', or invokes /book-study. Supports sub-commands: ingest, query, review, compare, status. Triggers: book, study, read, chapter, ingest, review, quiz, reading plan, book notes."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="book-to-skill" data-triggers="提炼|新书|书籍提炼|读书笔记|帮我提炼">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/book-to-skill</code>
+<button class="copy-btn" onclick="copySlug(this, '/book-to-skill')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">提炼</span><span class="trigger-tag">新书</span><span class="trigger-tag">书籍提炼</span><span class="trigger-tag">读书笔记</span><span class="trigger-tag">帮我提炼</span></div>
+<p class="desc">"Converts books and documents (PDF, EPUB, DOCX, HTML, Markdown, plain text, RTF, MOBI/AZW with Calibre) into structured agent skills, extracting frameworks, mental models, principles, techniques, and anti-patterns. Use when the user wants to study a document through GitHub Copilot CLI, Amp, or Claude Code, apply an author's frameworks while working, or build a reusable knowledge base from a file."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="knowledge-base-check" data-triggers="检查知识库|lint|健康检查|断链">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/knowledge-base-check</code>
+<button class="copy-btn" onclick="copySlug(this, '/knowledge-base-check')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">检查知识库</span><span class="trigger-tag">lint</span><span class="trigger-tag">健康检查</span><span class="trigger-tag">断链</span></div>
+<p class="desc">扫描 SecondBrain 知识库结构完整性，生成健康报告并提出修复建议。 当用户提到检查知识库、lint、健康检查、断链时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="knowledge-base-qa" data-triggers="知识库里|哪本书讲过|跨书|从书里找">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/knowledge-base-qa</code>
+<button class="copy-btn" onclick="copySlug(this, '/knowledge-base-qa')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">知识库里</span><span class="trigger-tag">哪本书讲过</span><span class="trigger-tag">跨书</span><span class="trigger-tag">从书里找</span></div>
+<p class="desc">基于 SecondBrain 知识库回答用户问题，综合多本书和多个模型的视角。 当用户提到知识库里、哪本书讲过、跨书、从书里找时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="neat-freak" data-triggers="同步文档|整理记忆|tidy up|收尾">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/neat-freak</code>
+<button class="copy-btn" onclick="copySlug(this, '/neat-freak')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">同步文档</span><span class="trigger-tag">整理记忆</span><span class="trigger-tag">tidy up</span><span class="trigger-tag">收尾</span></div>
+<p class="desc">End-of-session knowledge cleanup with OCD-level rigor — reconciles project docs (CLAUDE.md, README.md, docs/) and agent memory against the code so nothing rots. 会话结束后对项目文档和记忆进行洁癖级审查与同步。MUST trigger when the user says: "sync up", "tidy up docs", "update memory", "clean up docs", "/sync", "/neat", "同步一下", "整理文档", "整理一下", "更新记忆", "梳理一下", "收尾", "这个阶段做完了", "新人能直接上手", or any phrase suggesting a dev milestone where knowledge needs reconciliation. Also trigger when the user reports stale docs, conflicting memories, or wants a clean handoff to teammates or other agents. Bare "整理" / "tidy" with prior dev context counts — do not under-trigger. Cross-platform: works on Claude Code, OpenAI Codex, OpenCode, and OpenClaw.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="slack-gif-creator" data-triggers="Slack GIF|动画 GIF|emoji 动图">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/slack-gif-creator</code>
+<button class="copy-btn" onclick="copySlug(this, '/slack-gif-creator')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">Slack GIF</span><span class="trigger-tag">动画 GIF</span><span class="trigger-tag">emoji 动图</span></div>
+<p class="desc">Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like "make me a GIF of X doing Y for Slack."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+</div></section>
+<section class="category" data-cat="Documents & Output"><h2 style="border-color:#2563EB"><span class="cat-dot" style="background:#2563EB"></span>Documents & Output</h2><div class="grid">
+<article class="skill-card" data-slug="canvas-design" data-triggers="海报|视觉艺术|静态设计|poster">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/canvas-design</code>
+<button class="copy-btn" onclick="copySlug(this, '/canvas-design')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">海报</span><span class="trigger-tag">视觉艺术</span><span class="trigger-tag">静态设计</span><span class="trigger-tag">poster</span></div>
+<p class="desc">Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="doc-coauthoring" data-triggers="写文档|协作撰写|PRD|design doc|RFC">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/doc-coauthoring</code>
+<button class="copy-btn" onclick="copySlug(this, '/doc-coauthoring')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">写文档</span><span class="trigger-tag">协作撰写</span><span class="trigger-tag">PRD</span><span class="trigger-tag">design doc</span><span class="trigger-tag">RFC</span></div>
+<p class="desc">Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content. This workflow helps users efficiently transfer context, refine content through iteration, and verify the doc works for readers. Trigger when user mentions writing docs, creating proposals, drafting specs, or similar documentation tasks.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="docx" data-triggers="Word 文档|.docx|报告|memo|letter">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/docx</code>
+<button class="copy-btn" onclick="copySlug(this, '/docx')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">Word 文档</span><span class="trigger-tag">.docx</span><span class="trigger-tag">报告</span><span class="trigger-tag">memo</span><span class="trigger-tag">letter</span></div>
+<p class="desc">"Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of 'Word doc', 'word document', '.docx', or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a 'report', 'memo', 'letter', 'template', or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="internal-comms" data-triggers="内部沟通|status report|3P update|newsletter">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/internal-comms</code>
+<button class="copy-btn" onclick="copySlug(this, '/internal-comms')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">内部沟通</span><span class="trigger-tag">status report</span><span class="trigger-tag">3P update</span><span class="trigger-tag">newsletter</span></div>
+<p class="desc">A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="pdf" data-triggers="PDF|合并 PDF|拆分 PDF|OCR">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/pdf</code>
+<button class="copy-btn" onclick="copySlug(this, '/pdf')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">PDF</span><span class="trigger-tag">合并 PDF</span><span class="trigger-tag">拆分 PDF</span><span class="trigger-tag">OCR</span></div>
+<p class="desc">Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="persuasion-proposal" data-triggers="提案|申请|buy-in|推动|争取|说服老板|采购申请|预算申请">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/persuasion-proposal</code>
+<button class="copy-btn" onclick="copySlug(this, '/persuasion-proposal')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">提案</span><span class="trigger-tag">申请</span><span class="trigger-tag">buy-in</span><span class="trigger-tag">推动</span><span class="trigger-tag">争取</span><span class="trigger-tag">说服老板</span><span class="trigger-tag">采购申请</span><span class="trigger-tag">预算申请</span></div>
+<p class="desc">撰写说服性方案/提案/申请（含采购预算申请）。当用户提到提案、申请、buy-in、推动、争取、 说服老板、采购申请、预算申请、采购时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="pptx" data-triggers="PPT|幻灯片|演示文稿|deck|slides">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/pptx</code>
+<button class="copy-btn" onclick="copySlug(this, '/pptx')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">PPT</span><span class="trigger-tag">幻灯片</span><span class="trigger-tag">演示文稿</span><span class="trigger-tag">deck</span><span class="trigger-tag">slides</span></div>
+<p class="desc">"Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions \"deck,\" \"slides,\" \"presentation,\" or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="xlsx" data-triggers="Excel|.xlsx|电子表格|spreadsheet">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/xlsx</code>
+<button class="copy-btn" onclick="copySlug(this, '/xlsx')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">Excel</span><span class="trigger-tag">.xlsx</span><span class="trigger-tag">电子表格</span><span class="trigger-tag">spreadsheet</span></div>
+<p class="desc">"Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like \"the xlsx in my downloads\") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+</div></section>
+<section class="category" data-cat="Creative & Design"><h2 style="border-color:#DB2777"><span class="cat-dot" style="background:#DB2777"></span>Creative & Design</h2><div class="grid">
+<article class="skill-card" data-slug="algorithmic-art" data-triggers="生成艺术|算法艺术|p5.js|flow field">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/algorithmic-art</code>
+<button class="copy-btn" onclick="copySlug(this, '/algorithmic-art')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">生成艺术</span><span class="trigger-tag">算法艺术</span><span class="trigger-tag">p5.js</span><span class="trigger-tag">flow field</span></div>
+<p class="desc">Creating algorithmic art using p5.js with seeded randomness and interactive parameter exploration. Use this when users request creating art using code, generative art, algorithmic art, flow fields, or particle systems. Create original algorithmic art rather than copying existing artists' work to avoid copyright violations.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="brand-guidelines" data-triggers="品牌配色|Anthropic 风格|brand colors">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/brand-guidelines</code>
+<button class="copy-btn" onclick="copySlug(this, '/brand-guidelines')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">品牌配色</span><span class="trigger-tag">Anthropic 风格</span><span class="trigger-tag">brand colors</span></div>
+<p class="desc">Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="brandkit" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/brandkit</code>
+<button class="copy-btn" onclick="copySlug(this, '/brandkit')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Premium brand-kit image generation skill for creating high-end brand-guidelines boards, logo systems, identity decks, and visual-world presentations. Trained for minimalist, cinematic, editorial, dark-tech, luxury, cultural, security, gaming, developer-tool, and consumer-app brand systems. Optimized for intentional logo concepting, refined composition, sparse typography, strong symbolic meaning, premium mockups, art-directed imagery, and flexible grid layouts.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="dashboard-creator" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/dashboard-creator</code>
+<button class="copy-btn" onclick="copySlug(this, '/dashboard-creator')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Create HTML dashboards with KPI metric cards, bar/pie/line charts, progress indicators, and data visualizations. Use when users request dashboards, metrics displays, KPI visualizations, data charts, or monitoring interfaces.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="design-taste-frontend" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/design-taste-frontend</code>
+<button class="copy-btn" onclick="copySlug(this, '/design-taste-frontend')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Anti-slop frontend skill for landing pages, portfolios, and redesigns. The agent reads the brief, infers the right design direction, and ships interfaces that do not look templated. Real design systems when applicable, audit-first on redesigns, strict pre-flight check.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="design-taste-frontend-v1" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/design-taste-frontend-v1</code>
+<button class="copy-btn" onclick="copySlug(this, '/design-taste-frontend-v1')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">The original v1 taste-skill, preserved for projects depending on its exact behavior. The current default is `design-taste-frontend` (v2 experimental), which is a substantial rewrite. Use this v1 install name only if you need exact backward compatibility.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="frontend-design" data-triggers="前端设计|UI 设计|网页视觉|landing page">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/frontend-design</code>
+<button class="copy-btn" onclick="copySlug(this, '/frontend-design')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">前端设计</span><span class="trigger-tag">UI 设计</span><span class="trigger-tag">网页视觉</span><span class="trigger-tag">landing page</span></div>
+<p class="desc">Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="high-end-visual-design" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/high-end-visual-design</code>
+<button class="copy-btn" onclick="copySlug(this, '/high-end-visual-design')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Teaches the AI to design like a high-end agency. Defines the exact fonts, spacing, shadows, card structures, and animations that make a website feel expensive. Blocks all the common defaults that make AI designs look cheap or generic.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="image-to-code" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/image-to-code</code>
+<button class="copy-btn" onclick="copySlug(this, '/image-to-code')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Elite website image-to-code skill for Codex. For visually important web tasks, it must first generate the design image(s) itself, deeply analyze them, then implement the website to match them as closely as possible. In Codex, it must prefer large, readable, section-specific images instead of tiny compressed boards, generate fresh standalone images for sections or detail views instead of cropping old ones, avoid lazy under-generation, avoid cards-inside-cards-inside-cards UI, and keep the hero clean, spacious, readable, and visible on a small laptop.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="imagegen-frontend-mobile" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/imagegen-frontend-mobile</code>
+<button class="copy-btn" onclick="copySlug(this, '/imagegen-frontend-mobile')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Elite mobile app image-generation skill for creating premium, app-native screen concepts and flows. Designed for iOS, Android, and cross-platform mobile products. Prioritizes clean hierarchy, comfortably readable text, strong multi-screen consistency, controlled color palettes, non-generic creative direction, textured surfaces, image-led composition, tasteful custom iconography, and clean phone mockup framing. By default, screens should be shown inside a subtle premium iPhone or similar phone mockup with a visible frame, while the main focus stays on the app content itself. This skill generates images only. It does not write code.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="imagegen-frontend-web" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/imagegen-frontend-web</code>
+<button class="copy-btn" onclick="copySlug(this, '/imagegen-frontend-web')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Elite frontend image-direction skill for generating premium, conversion-aware website design references. CRITICAL OUTPUT RULE — generate ONE separate horizontal image FOR EVERY section. A landing page with 8 sections produces 8 images. Never compress multiple sections into one image. Enforces composition variety (not always left-text / right-image), background-image freedom, varied CTAs, varied hero scales (giant / mid / mini minimalist), narrative concept spine, second-read moments, and a single consistent palette across all images. Optimized for landing pages, marketing sites, and product comps that developers or coding models can accurately recreate.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="mcp-builder" data-triggers="MCP 服务器|MCP server|tool integration">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/mcp-builder</code>
+<button class="copy-btn" onclick="copySlug(this, '/mcp-builder')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">MCP 服务器</span><span class="trigger-tag">MCP server</span><span class="trigger-tag">tool integration</span></div>
+<p class="desc">Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="redesign-existing-projects" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/redesign-existing-projects</code>
+<button class="copy-btn" onclick="copySlug(this, '/redesign-existing-projects')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Upgrades existing websites and apps to premium quality. Audits current design, identifies generic AI patterns, and applies high-end design standards without breaking functionality. Works with any CSS framework or vanilla CSS.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="stitch-design-taste" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/stitch-design-taste</code>
+<button class="copy-btn" onclick="copySlug(this, '/stitch-design-taste')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Semantic Design System Skill for Google Stitch. Generates agent-friendly DESIGN.md files that enforce premium, anti-generic UI standards — strict typography, calibrated color, asymmetric layouts, perpetual micro-motion, and hardware-accelerated performance.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="theme-factory" data-triggers="主题配色|styling|配色方案">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/theme-factory</code>
+<button class="copy-btn" onclick="copySlug(this, '/theme-factory')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">主题配色</span><span class="trigger-tag">styling</span><span class="trigger-tag">配色方案</span></div>
+<p class="desc">Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="web-artifacts-builder" data-triggers="React 组件|shadcn|HTML artifact">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/web-artifacts-builder</code>
+<button class="copy-btn" onclick="copySlug(this, '/web-artifacts-builder')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">React 组件</span><span class="trigger-tag">shadcn</span><span class="trigger-tag">HTML artifact</span></div>
+<p class="desc">Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="webapp-testing" data-triggers="Playwright|浏览器测试|UI 测试">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/webapp-testing</code>
+<button class="copy-btn" onclick="copySlug(this, '/webapp-testing')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">Playwright</span><span class="trigger-tag">浏览器测试</span><span class="trigger-tag">UI 测试</span></div>
+<p class="desc">Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+</div></section>
+<section class="category" data-cat="File & System"><h2 style="border-color:#0D9488"><span class="cat-dot" style="background:#0D9488"></span>File & System</h2><div class="grid">
+<article class="skill-card" data-slug="file-management" data-triggers="整理下载|清理桌面|查重|重复文件|扫描目录|文件索引|Downloads">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/file-management</code>
+<button class="copy-btn" onclick="copySlug(this, '/file-management')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">整理下载</span><span class="trigger-tag">清理桌面</span><span class="trigger-tag">查重</span><span class="trigger-tag">重复文件</span><span class="trigger-tag">扫描目录</span><span class="trigger-tag">文件索引</span><span class="trigger-tag">Downloads</span></div>
+<p class="desc">文件管理工具集（整理下载、清理桌面、查重、扫描索引）。当用户提到整理下载、整理文件、 Downloads、清理桌面、桌面整理、查重、重复文件、找重复、扫描目录、文件索引、目录清单时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="portable" data-triggers="我来啦|我走啦|插上了|要拔了">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/portable</code>
+<button class="copy-btn" onclick="copySlug(this, '/portable')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">我来啦</span><span class="trigger-tag">我走啦</span><span class="trigger-tag">插上了</span><span class="trigger-tag">要拔了</span></div>
+<p class="desc">"插入F盘时说「我来啦」建立配置链接；拔出前说「我走啦」确认同步状态。"</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="vox" data-triggers="VOX|声音伴侣|语音|朗读|语速|TTS|停止说话|别说了">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/vox</code>
+<button class="copy-btn" onclick="copySlug(this, '/vox')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">VOX</span><span class="trigger-tag">声音伴侣</span><span class="trigger-tag">语音</span><span class="trigger-tag">朗读</span><span class="trigger-tag">语速</span><span class="trigger-tag">TTS</span><span class="trigger-tag">停止说话</span><span class="trigger-tag">别说了</span></div>
+<p class="desc">声音伴侣(Vox)运行时控制与调试。当用户提到 VX、VOX、声音伴侣、语音、朗读、语速、声音太快/太慢、 换个声音、调一下声音、TTS、edge-tts、watcher 没响、没有声音、重复朗读、读了两遍、 停止说话、别说了、安静、shut up、mute， 或任何涉及 Claude Code 语音朗读功能的请求时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+</div></section>
+<section class="category" data-cat="Developer Tools"><h2 style="border-color:#475569"><span class="cat-dot" style="background:#475569"></span>Developer Tools</h2><div class="grid">
+<article class="skill-card" data-slug="claude-api" data-triggers="Claude API|Anthropic SDK|model pricing">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/claude-api</code>
+<button class="copy-btn" onclick="copySlug(this, '/claude-api')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">Claude API</span><span class="trigger-tag">Anthropic SDK</span><span class="trigger-tag">model pricing</span></div>
+<p class="desc">|- Reference for the Claude API / Anthropic SDK — model ids, pricing, params, streaming, tool use, MCP, agents, caching, token counting, model migration. TRIGGER — read BEFORE opening the target file; don't skip because it "looks like a one-liner" — whenever: the prompt names Claude/Anthropic in any form (Claude, Anthropic, Fable, Opus, Sonnet, Haiku, `anthropic`, `@anthropic-ai`, `claude-*`, `us.anthropic.*`, `[1m]`); the user asks about an LLM (pricing/model choice/limits/caching) — never answer from memory; OR the task is LLM-shaped with provider unstated (agent/MCP/tool-definition/multi-agent/RAG/LLM-judge/computer-use; generate/summarize/extract/classify/rewrite/converse over NL; debugging refusals/cutoffs/streaming/tool-calls/tokens). SKIP only when another provider is being worked on (overrides all triggers): OpenAI/GPT/Gemini/Llama/Mistral/Cohere/Ollama named in the query; OR `grep -rE 'openai|langchain_openai|google.generativeai|genai|mistralai|cohere|ollama'` over the project hits (run this grep FIRST if no provider named — don't Read the file).</p>
+<div class="usage-line"></div>
+</div>
+</article>
+</div></section>
+<section class="category" data-cat="Uncategorized"><h2 style="border-color:#6B7280"><span class="cat-dot" style="background:#6B7280"></span>Uncategorized</h2><div class="grid">
+<article class="skill-card" data-slug="baoyu-infographic" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/baoyu-infographic</code>
+<button class="copy-btn" onclick="copySlug(this, '/baoyu-infographic')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Generate professional infographics with 21 layout types and 22 visual styles. Analyzes content, recommends layout×style combinations, and generates publication-ready infographics. Use when user asks to create "infographic", "信息图", "visual summary", "可视化", or "高密度信息大图".</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="demand-detective" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/demand-detective</code>
+<button class="copy-btn" onclick="copySlug(this, '/demand-detective')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">需求侦探：当用户提出模糊、一句话、场景类、业务流程类需求时使用。适用于“新需求、提个需求、帮忙设计、优化一下、做个功能、用户反馈、能不能、想要一个、流程、报表、功能、模块”等场景。通过场景反讲、A/B 选择题和决策日志，把模糊需求转化为确定的共识方案，并输出分级开发任务单。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="full-output-enforcement" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/full-output-enforcement</code>
+<button class="copy-btn" onclick="copySlug(this, '/full-output-enforcement')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Overrides default LLM truncation behavior. Enforces complete code generation, bans placeholder patterns, and handles token-limit splits cleanly. Apply to any task requiring exhaustive, unabridged output.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="gpt-taste" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/gpt-taste</code>
+<button class="copy-btn" onclick="copySlug(this, '/gpt-taste')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Elite UX/UI & Advanced GSAP Motion Engineer. Enforces Python-driven true randomization for layout variance, strict AIDA page structure, wide editorial typography (bans 6-line wraps), gapless bento grids, strict GSAP ScrollTriggers (pinning, stacking, scrubbing), inline micro-images, and massive section spacing.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="industrial-brutalist-ui" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/industrial-brutalist-ui</code>
+<button class="copy-btn" onclick="copySlug(this, '/industrial-brutalist-ui')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Raw mechanical interfaces fusing Swiss typographic print with military terminal aesthetics. Rigid grids, extreme type scale contrast, utilitarian color, analog degradation effects. For data-heavy dashboards, portfolios, or editorial sites that need to feel like declassified blueprints.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="julian" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/julian</code>
+<button class="copy-btn" onclick="copySlug(this, '/julian')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Julian 的个人操作系统——做事原则、思维模型、审美判断、商业直觉的活文档。 这个 skill 在以下场景被引用：(1) phone-in 处理时沉淀新原则；(2) 需要以 Julian 的视角 思考问题时；(3) 创作内容（公众号、小红书）时作为调性和立场参考；(4) 用户说"我怎么想的"、 "我的原则"、"Julian.skill"时直接触发。这是一个持续生长的文件，随每次 phone-in 处理而积累。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="minimalist-ui" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/minimalist-ui</code>
+<button class="copy-btn" onclick="copySlug(this, '/minimalist-ui')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Clean editorial-style interfaces. Warm monochrome palette, typographic contrast, flat bento grids, muted pastels. No gradients, no heavy shadows.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="phone-in" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/phone-in</code>
+<button class="copy-btn" onclick="copySlug(this, '/phone-in')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">处理用户从手机转发到新枝(xinzhi)暂存箱的内容：Skills安装、写作风格更新、做事原则沉淀、文章收藏。 当用户说"新枝"、"看看手机"、"手机上的"、"收了什么"、"最近转发的"、"处理一下收件箱"、 "暂存箱"、"有什么新东西"时触发。即使用户只是随口提到手机上看到了什么想处理，也应该触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="phone-out" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/phone-out</code>
+<button class="copy-btn" onclick="copySlug(this, '/phone-out')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">将 Claude 生成的内容推送到用户手机（通过新枝同步到微信）。适用于用户想在手机上查看、 复制粘贴到小红书/公众号/朋友圈的场景。当用户说"推到手机"、"发到微信"、"手机上看"、 "发给我"、"我手机上用"、"复制到手机"、"待会儿发"时触发。即使用户只是暗示想在手机上 使用当前内容（比如"这个我待会儿发小红书"），也应该触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+</div></section>
+
+</main>
+<footer>
+Skills Dashboard &mdash; auto-generated from F:\_环境\claude\commands\
+</footer>
+<div id="global-toast"></div>
+<script>
+const USAGE_LOG_PATH = 'usage.jsonl';
+let toastTimer = null;
+
+function copySlug(btn, text) {
+  navigator.clipboard.writeText(text).then(function() {
+    btn.classList.add('copied');
+    setTimeout(function() { btn.classList.remove('copied'); }, 1200);
+    const toast = document.getElementById('global-toast');
+    toast.textContent = 'Copied: ' + text;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 1500);
+  });
+}
+
+document.querySelectorAll('.desc').forEach(function(el) {
+  el.addEventListener('click', function() { this.classList.toggle('expanded'); });
+});
+
+async function loadStats() {
+  let lines;
+  try {
+    const resp = await fetch(USAGE_LOG_PATH);
+    if (!resp.ok) return;
+    const text = await resp.text();
+    lines = text.trim().split('\n').filter(Boolean);
+  } catch(e) { return; }
+
+  const now = Date.now();
+  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+  const total = {};
+  const last7d = {};
+
+  for (const line of lines) {
+    try {
+      const rec = JSON.parse(line);
+      const skill = rec.skill;
+      const ts = new Date(rec.timestamp).getTime();
+      total[skill] = (total[skill] || 0) + 1;
+      if (now - ts < sevenDays) { last7d[skill] = (last7d[skill] || 0) + 1; }
+    } catch(e) { continue; }
+  }
+
+  let totalCount = 0;
+  let activeCount = 0;
+
+  document.querySelectorAll('.skill-card').forEach(function(card) {
+    const slug = card.dataset.slug;
+    const t = total[slug] || 0;
+    const w = last7d[slug] || 0;
+    totalCount += t;
+    if (w > 0) activeCount++;
+
+    const usageLine = card.querySelector('.usage-line');
+    if (t > 0) {
+      usageLine.innerHTML = '<span class="count-total">' + t + ' total</span><span class="count-7d">' + w + ' / 7d</span>';
+    }
+
+    if (w === 0) {}
+    else if (w <= 3) { card.classList.add('freq-low'); }
+    else if (w <= 10) { card.classList.add('freq-mid'); }
+    else { card.classList.add('freq-high'); }
+  });
+
+  document.getElementById('stat-active').textContent = activeCount;
+  document.getElementById('stat-total').textContent = totalCount;
+}
+
+loadStats();
+
+function regenerate() {
+  const btn = document.querySelector('.refresh-btn');
+  btn.classList.add('running');
+  btn.querySelector('span').textContent = '刷新中...';
+  setTimeout(function() { location.reload(); }, 300);
+}
+
+const searchInput = document.getElementById('search-input');
+const searchHint = document.getElementById('search-hint');
+const dropdown = document.getElementById('search-dropdown');
+const allCards = document.querySelectorAll('.skill-card[data-slug]');
+const allCategories = document.querySelectorAll('main .category');
+let activeIdx = -1;
+
+function getMatches(q) {
+  const results = [];
+  allCards.forEach(function(card) {
+    const slug = card.dataset.slug.toLowerCase();
+    const triggers = (card.dataset.triggers || '').toLowerCase();
+    const desc = card.querySelector('.desc').textContent.toLowerCase();
+    if (slug.includes(q) || triggers.includes(q) || desc.includes(q)) {
+      results.push({ slug: card.dataset.slug, triggers: card.dataset.triggers || '', el: card });
+    }
+  });
+  return results;
+}
+
+function renderDropdown(matches) {
+  if (matches.length === 0) { dropdown.classList.remove('open'); dropdown.innerHTML = ''; return; }
+  dropdown.innerHTML = matches.map(function(m, i) {
+    const trigText = m.triggers ? m.triggers.split(' ').slice(0, 4).join(' / ') : '';
+    return '<li data-idx="' + i + '"><span class="dd-slug">/' + m.slug + '</span><span class="dd-triggers">' + trigText + '</span></li>';
+  }).join('');
+  dropdown.classList.add('open');
+  activeIdx = -1;
+}
+
+function jumpToCard(card) {
+  searchInput.blur();
+  dropdown.classList.remove('open');
+  allCards.forEach(c => c.classList.remove('hidden'));
+  allCategories.forEach(c => c.classList.remove('hidden'));
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  card.classList.remove('highlight');
+  void card.offsetWidth;
+  card.classList.add('highlight');
+}
+
+searchInput.addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  if (!q) {
+    allCards.forEach(c => c.classList.remove('hidden'));
+    allCategories.forEach(c => c.classList.remove('hidden'));
+    favSection.classList.remove('hidden');
+    favGrid.querySelectorAll('.skill-card').forEach(c => c.classList.remove('hidden'));
+    dropdown.classList.remove('open');
+    searchHint.textContent = '';
+    return;
+  }
+  const matches = getMatches(q);
+  renderDropdown(matches);
+  let count = 0;
+  allCards.forEach(function(card) {
+    const slug = card.dataset.slug.toLowerCase();
+    const triggers = (card.dataset.triggers || '').toLowerCase();
+    const desc = card.querySelector('.desc').textContent.toLowerCase();
+    const match = slug.includes(q) || triggers.includes(q) || desc.includes(q);
+    card.classList.toggle('hidden', !match);
+    if (match) count++;
+  });
+  allCategories.forEach(function(sec) {
+    const visible = sec.querySelectorAll('.skill-card:not(.hidden)').length;
+    sec.classList.toggle('hidden', visible === 0);
+  });
+  favGrid.querySelectorAll('.skill-card').forEach(function(card) {
+    const slug = card.dataset.slug.toLowerCase();
+    const triggers = (card.dataset.triggers || '').toLowerCase();
+    const desc = card.querySelector('.desc').textContent.toLowerCase();
+    const match = slug.includes(q) || triggers.includes(q) || desc.includes(q);
+    card.classList.toggle('hidden', !match);
+  });
+  if (favSection.classList.contains('has-items')) {
+    const favVisible = favGrid.querySelectorAll('.skill-card:not(.hidden)').length;
+    favSection.classList.toggle('hidden', favVisible === 0);
+  }
+  searchHint.textContent = count + ' 个匹配';
+});
+
+searchInput.addEventListener('keydown', function(e) {
+  const items = dropdown.querySelectorAll('li');
+  if (!items.length) return;
+  if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, items.length - 1); items.forEach((li, i) => li.classList.toggle('active', i === activeIdx)); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); items.forEach((li, i) => li.classList.toggle('active', i === activeIdx)); }
+  else if (e.key === 'Enter' && activeIdx >= 0) { e.preventDefault(); const q = this.value.trim().toLowerCase(); const matches = getMatches(q); if (matches[activeIdx]) jumpToCard(matches[activeIdx].el); }
+});
+
+dropdown.addEventListener('click', function(e) {
+  const li = e.target.closest('li');
+  if (!li) return;
+  const idx = parseInt(li.dataset.idx);
+  const q = searchInput.value.trim().toLowerCase();
+  const matches = getMatches(q);
+  if (matches[idx]) jumpToCard(matches[idx].el);
+});
+
+searchInput.addEventListener('blur', function() { setTimeout(function() { dropdown.classList.remove('open'); }, 200); });
+searchInput.addEventListener('focus', function() {
+  const q = this.value.trim().toLowerCase();
+  if (q) { const matches = getMatches(q); renderDropdown(matches); }
+});
+
+// Favorites system
+const FAVORITES_KEY = 'skills-dashboard-favorites';
+const favSection = document.getElementById('favorites-section');
+const favGrid = document.getElementById('favorites-grid');
+
+function getFavorites() {
+  try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; }
+  catch(e) { return []; }
+}
+function saveFavorites(favs) { localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs)); }
+
+function addStarButtons() {
+  document.querySelectorAll('main .skill-card[data-slug]').forEach(function(card) {
+    const header = card.querySelector('.card-header');
+    if (header.querySelector('.star-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'star-btn';
+    btn.title = '收藏';
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    btn.onclick = function(e) { e.stopPropagation(); toggleFavorite(card.dataset.slug); };
+    header.insertBefore(btn, header.querySelector('.copy-btn'));
+  });
+}
+
+function toggleFavorite(slug) {
+  let favs = getFavorites();
+  const idx = favs.indexOf(slug);
+  if (idx >= 0) { favs.splice(idx, 1); } else { favs.push(slug); }
+  saveFavorites(favs);
+  renderFavorites();
+}
+
+function renderFavorites() {
+  const favs = getFavorites();
+  favGrid.innerHTML = '';
+  document.querySelectorAll('main .skill-card .star-btn').forEach(function(btn) {
+    const card = btn.closest('.skill-card');
+    if (favs.includes(card.dataset.slug)) {
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+      btn.classList.add('starred');
+    } else {
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+      btn.classList.remove('starred');
+    }
+  });
+  if (favs.length === 0) { favSection.classList.remove('has-items'); return; }
+  favSection.classList.add('has-items');
+  favs.forEach(function(slug) {
+    const original = document.querySelector('main .skill-card[data-slug="' + slug + '"]:not(.fav-clone)');
+    if (!original) return;
+    const clone = original.cloneNode(true);
+    clone.classList.add('fav-clone');
+    const cloneStar = clone.querySelector('.star-btn');
+    if (cloneStar) { cloneStar.onclick = function(e) { e.stopPropagation(); toggleFavorite(slug); }; }
+    const cloneCopy = clone.querySelector('.copy-btn');
+    if (cloneCopy) { cloneCopy.onclick = function() { copySlug(cloneCopy, '/' + slug); }; }
+    const cloneDesc = clone.querySelector('.desc');
+    if (cloneDesc) { cloneDesc.addEventListener('click', function() { this.classList.toggle('expanded'); }); }
+    favGrid.appendChild(clone);
+  });
+}
+
+addStarButtons();
+renderFavorites();
+</script>
+</body>
+</html>
