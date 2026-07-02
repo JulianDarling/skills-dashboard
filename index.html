@@ -414,10 +414,10 @@ footer {
 </button>
 </div>
 <div class="stats-bar">
-<span><span class="stat-value">115</span> 已安装</span>
+<span><span class="stat-value">117</span> 已安装</span>
 <span><span class="stat-value stat-active" id="stat-active">—</span> 本周活跃</span>
 <span><span class="stat-value stat-invocations" id="stat-total">—</span> 累计调用</span>
-<span>更新于 2026-07-02 18:09</span>
+<span>更新于 2026-07-02 18:16</span>
 </div>
 </header>
 
@@ -1008,7 +1008,23 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
-<article class="skill-card" data-slug="sm-monitor" data-triggers="问卷监控|回收情况|SM数据|下载问卷数据|漏斗">
+<article class="skill-card" data-slug="sm-maintain" data-triggers="Hash总表|问卷状态|查Hash|更新状态|检查一致性|维护">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/sm-maintain</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/sm-maintain')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">Hash总表</span><span class="trigger-tag">问卷状态</span><span class="trigger-tag">查Hash</span><span class="trigger-tag">更新状态</span><span class="trigger-tag">检查一致性</span><span class="trigger-tag">维护</span></div>
+<p class="desc">SurveyMonkey Hash 总表日常维护。查询记录、更新状态、一致性检查。 当用户提到Hash总表、问卷状态、查Hash、更新状态、检查一致性时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="sm-monitor" data-triggers="问卷监控|回收情况|SM数据|下载问卷数据|漏斗|异常预警">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
@@ -1019,8 +1035,24 @@ footer {
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
 </button>
 </div>
-<div class="triggers"><span class="trigger-tag">问卷监控</span><span class="trigger-tag">回收情况</span><span class="trigger-tag">SM数据</span><span class="trigger-tag">下载问卷数据</span><span class="trigger-tag">漏斗</span></div>
+<div class="triggers"><span class="trigger-tag">问卷监控</span><span class="trigger-tag">回收情况</span><span class="trigger-tag">SM数据</span><span class="trigger-tag">下载问卷数据</span><span class="trigger-tag">漏斗</span><span class="trigger-tag">异常预警</span></div>
 <p class="desc">SurveyMonkey 问卷监控。查看回收漏斗（完成/部分/丢弃）、时间筛选、导出数据。 当用户提到问卷监控、回收情况、SM数据、问卷回收、下载问卷数据时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="sm-notify" data-triggers="通知运营|发部署通知|告知上线|监修通知">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/sm-notify</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/sm-notify')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">通知运营</span><span class="trigger-tag">发部署通知</span><span class="trigger-tag">告知上线</span><span class="trigger-tag">监修通知</span></div>
+<p class="desc">SurveyMonkey 部署通知。问卷上线后向飞书群发送部署配置通知。 当用户提到通知运营、发部署通知、告知上线时触发。</p>
 <div class="usage-line"></div>
 </div>
 </article>
