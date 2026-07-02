@@ -185,6 +185,86 @@ h1 {
   color: var(--ink);
 }
 .creator-highlight { margin-bottom: 48px; }
+.pipeline {
+  margin-bottom: 32px;
+  padding: 24px 28px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--pipe-color, #EC4899);
+}
+.pipe-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.pipe-header h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+.pipe-dot { width: 10px; height: 10px; border-radius: 50%; }
+.pipe-slug {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  background: #F3F4F6;
+  padding: 2px 8px;
+}
+.pipe-flow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  overflow-x: auto;
+}
+.pipe-stage {
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 16px;
+  background: #F9FAFB;
+  border: 1px solid var(--border);
+}
+.pipe-stage h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  text-align: center;
+}
+.pipe-stage ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.pipe-stage li {
+  font-size: 12px;
+  padding: 2px 0;
+}
+.pipe-stage li a {
+  color: var(--muted);
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  transition: color 0.15s;
+}
+.pipe-stage li a:hover { color: var(--signal); }
+.pipe-arrow {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 18px;
+  color: var(--idle);
+  align-self: center;
+}
+.pipe-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: #FDF2F8;
+  color: #BE185D;
+  font-family: inherit;
+  white-space: nowrap;
+  margin-left: auto;
+}
 .creator-highlight h2 {
   font-size: 14px;
   font-weight: 600;
@@ -334,10 +414,10 @@ footer {
 </button>
 </div>
 <div class="stats-bar">
-<span><span class="stat-value">63</span> 已安装</span>
+<span><span class="stat-value">115</span> 已安装</span>
 <span><span class="stat-value stat-active" id="stat-active">—</span> 本周活跃</span>
 <span><span class="stat-value stat-invocations" id="stat-total">—</span> 累计调用</span>
-<span>更新于 2026-07-01 17:29</span>
+<span>更新于 2026-07-02 18:03</span>
 </div>
 </header>
 
@@ -376,6 +456,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/skill-creator</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/skill-creator')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -390,6 +471,57 @@ footer {
 </section>
 
 
+<section class="pipeline" style="--pipe-color:#EC4899">
+<div class="pipe-header">
+<span class="pipe-dot" style="background:#EC4899"></span>
+<h3>Personal IP Pipeline</h3>
+<code class="pipe-slug">/personal-ip</code>
+</div>
+<div class="pipe-flow">
+<div class="pipe-stage">
+<h4>策划</h4>
+<ul><li><a href="#" onclick="jumpToSlug('huashu-topic-gen');return false">huashu-topic-gen</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-research');return false">huashu-research</a></li>
+<li><a href="#" onclick="jumpToSlug('hv-analysis');return false">hv-analysis</a></li>
+<li><a href="#" onclick="jumpToSlug('ljg-think');return false">ljg-think</a></li>
+<li><a href="#" onclick="jumpToSlug('ljg-learn');return false">ljg-learn</a></li>
+<li><a href="#" onclick="jumpToSlug('ljg-rank');return false">ljg-rank</a></li>
+<li><a href="#" onclick="jumpToSlug('ljg-book');return false">ljg-book</a></li></ul>
+</div>
+<div class="pipe-arrow">&rarr;</div>
+<div class="pipe-stage">
+<h4>生产</h4>
+<ul><li><a href="#" onclick="jumpToSlug('khazix-writer');return false">khazix-writer</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-article-edit');return false">huashu-article-edit</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-douyin-script');return false">huashu-douyin-script</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-video-outline');return false">huashu-video-outline</a></li>
+<li><a href="#" onclick="jumpToSlug('ljg-card');return false">ljg-card</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-xhs-image');return false">huashu-xhs-image</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-wechat-image');return false">huashu-wechat-image</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-slides');return false">huashu-slides</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-speech-coach');return false">huashu-speech-coach</a></li>
+<li><a href="#" onclick="jumpToSlug('ljg-present');return false">ljg-present</a></li></ul>
+</div>
+<div class="pipe-arrow">&rarr;</div>
+<div class="pipe-stage">
+<h4>质检</h4>
+<ul><li><a href="#" onclick="jumpToSlug('huashu-proofreading');return false">huashu-proofreading</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-script-polish');return false">huashu-script-polish</a></li>
+<li><a href="#" onclick="jumpToSlug('grill-me');return false">grill-me</a></li></ul>
+</div>
+<div class="pipe-arrow">&rarr;</div>
+<div class="pipe-stage">
+<h4>分发</h4>
+<ul><li><a href="#" onclick="jumpToSlug('huashu-article-to-x');return false">huashu-article-to-x</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-image-upload');return false">huashu-image-upload</a></li>
+<li><a href="#" onclick="jumpToSlug('huashu-md-to-pdf');return false">huashu-md-to-pdf</a></li>
+<li><a href="#" onclick="jumpToSlug('phone-out');return false">phone-out</a></li></ul>
+</div>
+
+
+</div>
+</section>
+
 <main>
 <section class="category favorites-section" id="favorites-section">
 <h2><span class="cat-dot" style="background:#D97706"></span>常用</h2>
@@ -401,6 +533,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/FTUE</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/FTUE')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -416,6 +549,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/candidate-eval</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/candidate-eval')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -431,6 +565,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/competitor-questionnaire</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/competitor-questionnaire')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -446,6 +581,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/darwin-skill</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/darwin-skill')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -456,11 +592,44 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="huashu-data-pro" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-data-pro</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/huashu-data-pro')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">| 数据分析与办公提效全能助手。覆盖数据处理、分析洞察、报告撰写、PPT制作、数据可视化的端到端工作流。 始终从专家视角出发，帮用户多想一步。遇到不确定的问题主动与用户确认。 支持：Excel数据分析、投放数据复盘、ROI测算、数据可视化、报告生成、PPT制作、公式生成。 当用户提到"分析数据"、"做报告"、"做PPT"、"Excel"、"投放分析"、"ROI"、"复盘"、 "周报"、"月报"、"数据处理"、"图表"、"可视化"、"汇报"、"表格"、"公式"时使用此技能。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-douyin-script" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-douyin-script</code>
+<span class="pipe-badge">Personal &rsaquo; 生产</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-douyin-script')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">| 抖音爆款脚本创作工作流。从竞品视频拆解到脚本生成的完整流程：下载抖音视频→Gemini视频分析→爆款公式提炼→脚本+分镜生成→AI味审校。 当用户提到"抖音脚本"、"爆款拆解"、"竞品分析"、"带货脚本"、"千川素材"、"种草脚本"、"视频拆解"、"抖音视频分析"时使用此技能。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="huashu-nuwa" data-triggers="">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/huashu-nuwa</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/huashu-nuwa')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -471,11 +640,60 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="huashu-research" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-research</code>
+<span class="pipe-badge">Personal &rsaquo; 策划</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-research')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">结构化网络调研流程，确保调研成果增量保存到文件，不因会话截断丢失。当用户说"调研"、"搜索资料"、"帮我查一下"、"了解一下"、"最新信息"时使用此技能。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-topic-gen" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-topic-gen</code>
+<span class="pipe-badge">Personal &rsaquo; 策划</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-topic-gen')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">快速生成3-4个选题方向，含标题、大纲和优劣分析。当用户提到"选题"、"写什么"、"文章方向"、"题目建议"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="hv-analysis" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/hv-analysis</code>
+<span class="pipe-badge">Personal &rsaquo; 策划</span>
+<button class="copy-btn" onclick="copySlug(this, '/hv-analysis')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">| 横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出，融合了索绪尔的历时-共时分析、社会科学的纵向-横截面研究设计、商学院案例研究法与竞争战略分析的核心思想。 当用户想要系统性研究一个产品、公司、概念、技术或人物时使用。核心是双轴分析：纵轴追踪从诞生到当下的完整生命历程（以叙事故事呈现），横轴在当下时间截面上与竞品/同类进行系统性横向对比，最后交叉两条轴产出独到洞察。最终产出一份排版精美的PDF研究报告。 触发词包括但不限于：横纵分析、研究一下、帮我分析、深度研究、做个研究、调研一下、竞品分析、帮我看看这个东西怎么样、这个产品/公司/概念是怎么回事、帮我摸清楚、帮我搞懂、帮我做个deep research。 即使用户只是说"帮我了解一下XX"或"XX是什么来头"，只要上下文暗示需要系统性的深度研究（而非简单的概念解释），都应该触发。也适用于用户丢来一个产品名、公司名、技术名词说"帮我研究一下这个"的场景。 不要用于简单的名词解释（用户只是问"XX是什么"）、不要用于公众号写作（那个用khazix-writer）、不要用于纯标题摘要生成（用wechat-title）。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="in-app-survey" data-triggers="端内调研|端内问卷|设计问卷|问卷题目">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/in-app-survey</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/in-app-survey')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -486,11 +704,188 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="ljg-book" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-book</code>
+<span class="pipe-badge">Personal &rsaquo; 策划</span>
+<button class="copy-btn" onclick="copySlug(this, '/ljg-book')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">拆一本书。找出作者在答哪个问题（x）、用哪副取景框看它（f）、照出了什么画面和结论（f(x)）。中心裁决：这副框是作者造的，还是捡来的现成框，用 hard-to-vary 检验；摆出问题上已有的几家答案作基线，画一张参考系图标出各家位置和作者的挪动，最后把框推到书外做一个可证伪的预测。造的书和捡的书拆法不同，不套固定模板。Use when user says '拆书', '拆这本', '分析这本书', '这本书在讲什么', '上帝之眼看这本书', '压缩一本书', 'book', or shares a book name wanting structural analysis. NOT FOR 章节摘要（用 Fabric extract_wisdom）、论文（用 ljg-paper）、单一观点深钻（用 ljg-think）、一个领域降秩（用 ljg-rank）.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-invest" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-invest</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-invest')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">投资分析, 生成一份深度投资分析报告。不做传统投资分析——核心判断是项目是否是一台「秩序创造机器」。Use when user says '投资报告', '投资分析', '分析这个项目', '写投资报告', 'investment report', 'invest analysis', or provides entrepreneur conversation records wanting investment evaluation. Also trigger when user pastes or references meeting notes, pitch decks, or founder interviews and asks for analysis.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-library" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-library</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-library')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"一本书 → 一幅清晰的「取景框」意向画面 → 一张 2050 图书馆借书卡（PNG）。取景框 = 作者从哪个角度看什么问题、看到了哪幅画面；卡上有真实封面、作者头像、书目信息。取景框 block 用费曼式讲解把这幅意向画面讲得通俗又准确；图解 block 用 AI 生图把这幅画面画出来，继刚是固定主角（从其墨像参考生成、认得出的他）。图解风格：吉田诚治式绘本感（异世界日常空间、暖光斜射、治愈又精致）。浅色光学玻璃卡身、强调色从封面动态提取、宽高自适应。合上书记住这幅画面，就没白读。Use when user says '取景框卡', '图书馆卡', 'library card', '书卡', '铸书卡', '一本书一句话一张卡', '/ljg-library', or provides a book name and wants it distilled into one collectible card. NOT FOR 拆书结构分析（用 ljg-book）、纯文字金句（用 ljg-card -b）、信息图（用 ljg-card -i）、视觉笔记（用 ljg-card -v）。"</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-map" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-map</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-map')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"一个行业 → 一张生态地形图卡（PNG）。以《千脑智能》参考系理论为地基：把行业摊成一张可俯瞰的「生态地形」——价值像河一样流过地貌，再在地形上标出两处——「瓶颈」（流量/产能在此收窄的隘口/水坝）和「价值捕获点」（利润在此沉淀的宝藏堆）。地形让权力结构一眼可见：卡流量的地方常常不是钱沉淀的地方。配三个关键指标的 base rate（刻度）+ 三个「大问题」（前沿）。deep research 真联网，图用 AI 生图（默认 -a 动物森友会暖萌风，可选 -c pixel+cyber），继刚作小测量员立在地形上俯瞰。Use when user says '行业地图', '产业地图', '生态地形图', '画一下这个行业', 'industry map', 'map this industry', '行业版图', '产业链地图', '/ljg-map', or gives an industry/领域 name wanting its terrain mapped. 风格：默认 -a 动森，加 -c 走 cyber。NOT FOR 一个领域降秩找生成器（用 ljg-rank）、拆一本书（用 ljg-book）、单个项目投资分析（用 ljg-invest）、一个概念深钻（用 ljg-think）。"</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-paper" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-paper</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-paper')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Paper reader for non-academics. Reads a paper and retells it as one continuous story about the paper's core proposition (命题) — the bold conjecture the authors stake the paper on. The story runs seven steps (主角/困境/旧路/转折/解法/结局/内核), grounds every number against the field's baseline, then walks the proposition out of the paper: an advisor-style review, a test against everyday life, and falsifiable predictions. Output opens with a scannable 速读 card (一句话/大想法/只记三件事) that compresses the story for the time-poor reader and the six-months-later self. The job is storytelling that makes the paper land, not academic critique. Use when user shares an arxiv link, paper URL, PDF, or asks to analyze a research paper. Trigger words: '读论文', '讲论文', '把这篇讲给我听', '分析论文', 'paper', or when user shares an academic paper."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-paper-flow" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-paper-flow</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-paper-flow')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Paper workflow: read papers + cast 取景框 library cards in one go. Takes one or more arxiv links, paper URLs, PDFs, or paper names. For each paper, runs ljg-paper (generates org analysis) then ljg-library (distills the paper's 取景框 into a 2050 library card PNG). Use when user says '论文流', 'paper flow', '读论文并做卡片', '论文卡片', or provides multiple papers wanting both analysis and cards."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-paper-river" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-paper-river</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-paper-river')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"论文倒读法：给一篇论文，递归找出它批判和改进的前序论文（最多5层），再找它之后的最新进展，从源头正向讲述问题演化史。以问题为轴，费曼式讲解每篇论文看到的问题和解法创新。Use when user shares a paper and wants to understand its intellectual lineage, citation chain, problem evolution, or says '倒读', '论文溯源', '论文脉络', 'paper river', 'paper connects', 'trace back', '这篇论文的来龙去脉', '论文演化'. Also trigger when user wants to understand how a research problem evolved across multiple papers."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-relationship" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-relationship</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-relationship')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">- Relationship analyst combining structural diagnostics (5-layer framework) with psychoanalytic depth (transference, unconscious patterns, resistance). Guides users through dialogue to "see" the real structure of their relationship issues. Use when user says "关系分析", "分析关系", "relationship", "人际关系", or describes a specific relationship problem they want to understand.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-think" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-think</code>
+<span class="pipe-badge">Personal &rsaquo; 策划</span>
+<button class="copy-btn" onclick="copySlug(this, '/ljg-think')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">追本之箭——纵向深钻思维工具。给一个观点、现象或问题，像箭一样一路向下钻到不可再分的本质。Use when user says '想透', '追本', '本质是什么', '为什么会这样', '深挖', '钻到底', 'think deep', 'drill down', or wants to trace any idea/phenomenon vertically to its irreducible root. Also trigger when user provides a statement and wants depth analysis, not breadth survey.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-travel" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-travel</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-travel')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Deep travel research workflow for museums and ancient architecture. Input a city name, auto-generates structured knowledge document (org-mode) + portable reference cards (PNG). Covers historical background, museum highlights, archaeological significance, and architectural heritage. Use when user says '旅行研究', '博物馆功课', '古建功课', 'travel research', '出发前功课', or provides a city name with intent to do deep cultural travel preparation."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-word-flow" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-word-flow</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-word-flow')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Word flow: deep-dive word analysis + infograph card in one go. Takes one or more English words, runs ljg-word (generates deep semantics analysis) then ljg-card -i (generates infograph PNG). Use when user says '词卡', 'word card', 'word flow', or provides English words wanting both analysis and visual card."</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="meeting-minutes" data-triggers="会议纪要|整理会议|会议传达">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/meeting-minutes</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/meeting-minutes')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -506,6 +901,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/questionnaire-library</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/questionnaire-library')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -521,6 +917,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/reddit-fetch</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/reddit-fetch')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -536,6 +933,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/research-archivist</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/research-archivist')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -551,6 +949,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/research-detective</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/research-detective')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -566,6 +965,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/research-plan</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/research-plan')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -581,6 +981,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/research-reviewer</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/research-reviewer')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -591,11 +992,60 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="sm-collector" data-triggers="创建collector|创建链接|hash归档|Collector">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/sm-collector</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/sm-collector')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">创建collector</span><span class="trigger-tag">创建链接</span><span class="trigger-tag">hash归档</span><span class="trigger-tag">Collector</span></div>
+<p class="desc">SurveyMonkey Collector 创建 + Hash 归档。创建 Web Link Collector，提取 Hash， 写入飞书 Hash 总表，输出部署配置。当用户提到创建collector、创建链接、hash归档时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="sm-monitor" data-triggers="问卷监控|回收情况|SM数据|下载问卷数据|漏斗">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/sm-monitor</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/sm-monitor')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">问卷监控</span><span class="trigger-tag">回收情况</span><span class="trigger-tag">SM数据</span><span class="trigger-tag">下载问卷数据</span><span class="trigger-tag">漏斗</span></div>
+<p class="desc">SurveyMonkey 问卷监控。查看回收漏斗（完成/部分/丢弃）、时间筛选、导出数据。 当用户提到问卷监控、回收情况、SM数据、问卷回收、下载问卷数据时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="sm-upload" data-triggers="上传问卷|上传到SM|创建SM问卷|SurveyMonkey上传">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/sm-upload</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/sm-upload')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">上传问卷</span><span class="trigger-tag">上传到SM</span><span class="trigger-tag">创建SM问卷</span><span class="trigger-tag">SurveyMonkey上传</span></div>
+<p class="desc">SurveyMonkey 问卷上传。从飞书标准化表格读取问卷设计稿，上传到 SurveyMonkey。 当用户提到上传问卷、上传到SM、创建SM问卷时触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="survey-data-analysis" data-triggers="问卷数据|数据清洗|问卷分析">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/survey-data-analysis</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/survey-data-analysis')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -611,6 +1061,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/survey-localization-qa</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/survey-localization-qa')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -626,6 +1077,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/vendor-support-email</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/vendor-support-email')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -641,6 +1093,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/writing-style</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/writing-style')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -658,6 +1111,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/aihot</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/aihot')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -673,6 +1127,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/book-study</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/book-study')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -688,6 +1143,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/book-to-skill</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/book-to-skill')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -698,11 +1154,28 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="huashu-info-search" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-info-search</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/huashu-info-search')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">多渠道搜索新产品新技术，交叉验证后存入知识库。当用户提到"最新信息"、"新产品"、"搜索资料"、"查资料"、"了解XX"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="knowledge-base-check" data-triggers="检查知识库|lint|健康检查|断链">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/knowledge-base-check</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/knowledge-base-check')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -718,6 +1191,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/knowledge-base-qa</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/knowledge-base-qa')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -728,11 +1202,44 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="ljg-qa" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-qa</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-qa')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">信息提问机。给一篇文章/论文/书，把核心观点抽成 Q-A 对——Question 切要害，不教科书；Answer 简洁清晰，有形式化收口，逻辑链完整。读者顺 Q 链走过，每个 A 砸下一枚钉子，复现作者整套推理。Use when user says '问答', 'Q&A', 'QA', '提问', '抽取问题', '/ljg-qa', or shares an article/paper/book and asks for Q-A extraction. Triggers when the user wants ideas extracted not as a summary but as a sequence of incisive questions with answered. NOT FOR FAQ generation, glossary creation, or comprehension quizzes — this is intellectual scaffolding, not study aids.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-read" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-read</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-read')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Reading companion agent. Accompanies user through any text (books, articles, essays, papers, news) with translation, structural annotation, deep questioning, and cross-domain insights. Detects language, translates English to Chinese (faithfulness-expressiveness-elegance), guides reader to understand the author and encounter real questions. Use when user says '伴读', '陪我读', '读这篇', 'read with me', 'companion read', or shares a text/URL wanting guided reading."</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="neat-freak" data-triggers="同步文档|整理记忆|tidy up|收尾">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/neat-freak</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/neat-freak')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -748,6 +1255,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/slack-gif-creator</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/slack-gif-creator')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -765,6 +1273,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/canvas-design</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/canvas-design')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -780,6 +1289,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/doc-coauthoring</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/doc-coauthoring')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -795,6 +1305,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/docx</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/docx')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -805,11 +1316,60 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="huashu-md-to-pdf" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-md-to-pdf</code>
+<span class="pipe-badge">Personal &rsaquo; 分发</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-md-to-pdf')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">| 将 Markdown 文档转换为专业的 PDF 白皮书，采用苹果设计风格。 支持完整的 Markdown 语法（代码块、表格、引用、列表等）。 自动生成封面、目录、页眉页脚。 使用场景：技术文档、白皮书、教程、报告等需要专业排版的 Markdown 文档。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-slides" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-slides</code>
+<span class="pipe-badge">Personal &rsaquo; 生产</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-slides')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">从内容到成品PPTX的端到端演示文稿制作，含AI插画生成和18种设计风格。当用户提到"做PPT"、"做幻灯片"、"演示文稿"、"Keynote"、"slides"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-speech-coach" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-speech-coach</code>
+<span class="pipe-badge">Personal &rsaquo; 生产</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-speech-coach')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">| 演讲与分享教练。基于Patrick Winston（MIT AI教授）的How to Speak方法论，帮助准备线下培训、技术分享、B站教程视频等演讲场景。当用户提到"演讲"、"分享"、"培训"、"讲课"、"PPT演讲"、"开场"、"结尾"、"如何讲"、"演讲结构"时使用此技能。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="internal-comms" data-triggers="内部沟通|status report|3P update|newsletter">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/internal-comms</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/internal-comms')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -820,11 +1380,28 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="ljg-word" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-word</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-word')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Deep-dive English word mastery tool. Deconstructs a single English word into core semantics and epiphany. Use when user asks to explain/master a specific English word.</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="pdf" data-triggers="PDF|合并 PDF|拆分 PDF|OCR">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/pdf</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/pdf')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -840,6 +1417,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/persuasion-proposal</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/persuasion-proposal')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -855,6 +1433,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/pptx</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/pptx')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -870,6 +1449,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/xlsx</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/xlsx')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -887,6 +1467,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/algorithmic-art</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/algorithmic-art')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -902,6 +1483,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/brand-guidelines</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/brand-guidelines')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -917,6 +1499,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/brandkit</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/brandkit')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -932,6 +1515,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/dashboard-creator</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/dashboard-creator')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -947,6 +1531,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/design-taste-frontend</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/design-taste-frontend')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -962,6 +1547,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/design-taste-frontend-v1</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/design-taste-frontend-v1')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -977,6 +1563,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/frontend-design</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/frontend-design')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -987,11 +1574,28 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="grill-me" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/grill-me</code>
+<span class="pipe-badge">Personal &rsaquo; 质检</span>
+<button class="copy-btn" onclick="copySlug(this, '/grill-me')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">A relentless interview to sharpen a plan or design.</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="high-end-visual-design" data-triggers="">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/high-end-visual-design</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/high-end-visual-design')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1002,11 +1606,60 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="huashu-article-edit" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-article-edit</code>
+<span class="pipe-badge">Personal &rsaquo; 生产</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-article-edit')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">标准化文章编辑流程，确保修改范围明确、进度可追踪、变更有记录。当用户说"编辑文章"、"修改文章"、"调整内容"、"改一下这篇"时使用此技能。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-article-to-x" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-article-to-x</code>
+<span class="pipe-badge">Personal &rsaquo; 分发</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-article-to-x')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">长文精简为X平台内容（200-500字），保留核心观点和个人风格。当用户提到"转微博"、"发小红书"、"社交媒体"、"缩短文章"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-design" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-design</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/huashu-design')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">设计哲学顾问，从20种风格中推荐3个方向并生成视觉Demo和AI提示词。当用户提到"设计风格"、"设计方向"、"配色方案"、"视觉风格"、"设计评审"、"推荐风格"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="image-to-code" data-triggers="">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/image-to-code</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/image-to-code')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1022,6 +1675,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/imagegen-frontend-mobile</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/imagegen-frontend-mobile')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1037,6 +1691,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/imagegen-frontend-web</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/imagegen-frontend-web')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1047,11 +1702,44 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="ljg-card" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-card</code>
+<span class="pipe-badge">Personal &rsaquo; 生产</span>
+<button class="copy-btn" onclick="copySlug(this, '/ljg-card')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Content caster (铸). Transforms content into PNG visuals. Seven molds: -l (default) long reading card, -i infograph, -m multi-card reading cards (1080x1440), -v editorial sketchnote (problem→failure→pivot→insight→naming, magazine + archive layout), -c comic (manga-style B&W), -w whiteboard (marker-style board layout), -b big-fonts attachment card (1080x1440, weathered 碑刻 style for 小红书). Output to ~/Downloads/. Use when user says '铸', 'cast', '做成图', '做成卡片', '做成信息图', '做成海报', '视觉笔记', 'sketchnote', '杂志', 'editorial', '漫画', 'comic', 'manga', '白板', 'whiteboard', '大字', '附件图', 'big fonts', '小红书卡片'. Replaces ljg-cards and ljg-infograph."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-plain" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-plain</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-plain')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Cognitive atom: Plain (白). Rewrites any content so a smart 12-year-old groks it. Structure-free — form follows content. Use when user says '白话说', '说人话', '解释一下', 'plain', 'grok'."</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="mcp-builder" data-triggers="MCP 服务器|MCP server|tool integration">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/mcp-builder</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/mcp-builder')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1067,6 +1755,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/redesign-existing-projects</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/redesign-existing-projects')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1082,6 +1771,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/stitch-design-taste</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/stitch-design-taste')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1097,6 +1787,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/theme-factory</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/theme-factory')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1112,6 +1803,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/web-artifacts-builder</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/web-artifacts-builder')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1127,6 +1819,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/webapp-testing</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/webapp-testing')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1144,6 +1837,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/file-management</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/file-management')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1154,18 +1848,35 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="huashu-prompt-save" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-prompt-save</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/huashu-prompt-save')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">自动识别Prompt类型并分类保存（技术/内容/教学/产品/通用）。当用户提到"保存prompt"、"记录prompt"、"整理prompt"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="portable" data-triggers="我来啦|我走啦|插上了|要拔了">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/portable</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/portable')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
 </button>
 </div>
 <div class="triggers"><span class="trigger-tag">我来啦</span><span class="trigger-tag">我走啦</span><span class="trigger-tag">插上了</span><span class="trigger-tag">要拔了</span></div>
-<p class="desc">"插入F盘时说「我来啦」建立配置链接；拔出前说「我走啦」确认同步状态。触发词：我来啦、我走啦、插上了、要拔了、便携、portable、F盘到了、接上U盘、同步配置。"</p>
+<p class="desc">"F盘便携工作台 ↔ C盘 junction 链接管理。日常无需触发——junction 持久生效。仅在换设备/重装系统/junction损坏时使用。「我来啦」建立链接，「我走啦」确认可拔出。触发词：我来啦、我走啦、插上了、要拔了、便携、portable、F盘到了、接上U盘、同步配置。"</p>
 <div class="usage-line"></div>
 </div>
 </article>
@@ -1174,6 +1885,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/vox</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/vox')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1191,6 +1903,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/claude-api</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/claude-api')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1208,6 +1921,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/baoyu-infographic</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/baoyu-infographic')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1218,11 +1932,28 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="daily-ritual" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/daily-ritual</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/daily-ritual')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">每日开工/收工仪式。开工时拉取日程、任务、新枝暂存箱、行业资讯，建立当日工作上下文； 收工时沉淀进度、触发知识同步、检查长线项目状态。 当用户说"开工"、"收工"、"今天开始"、"今天结束"、"morning"、"end of day"、 "早上好开始干活"、"下班了"、"日报"、"今天做什么"、"今天做了什么"、"每日仪式"、 "daily ritual"、"standup"时触发。用户早晨打开 Claude 随口说"开始吧"或晚上说 "差不多了"这类信号也应触发。不要 undertrigger——这是用户每天最高频的仪式性操作。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="demand-detective" data-triggers="">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/demand-detective</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/demand-detective')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1233,11 +1964,28 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="elsewhere-news" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/elsewhere-news</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/elsewhere-news')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Read and reason over Elsewhere (elsewhere.news): first-hand reporting on China's tech and venture ecosystem. Browse public content anonymously, or connect an els_live key for search, graph, full text, personas, and personal context.</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="full-output-enforcement" data-triggers="">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/full-output-enforcement</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/full-output-enforcement')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1253,6 +2001,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/gpt-taste</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/gpt-taste')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1263,11 +2012,156 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="huashu-agent-swarm" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-agent-swarm</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/huashu-agent-swarm')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">多Agent蜂群并行协作，纯git自组织，适合大型项目开发。当用户提到"蜂群模式"、"多agent"、"并行开发"、"agent swarm"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-image-upload" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-image-upload</code>
+<span class="pipe-badge">Personal &rsaquo; 分发</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-image-upload')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">文章配图一键生成并上传图床，自动插入Markdown链接。当用户提到"配图"、"插图"、"上传图片"、"文章配图"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-material-search" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-material-search</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/huashu-material-search')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">搜索个人素材库1800+条真实经历和观点，为内容增加人味。当用户提到"个人经历"、"真实案例"、"素材"、"人味"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-proofreading" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-proofreading</code>
+<span class="pipe-badge">Personal &rsaquo; 质检</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-proofreading')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">三遍审校降低AI检测率，让文章更有人味。当用户提到"AI味太重"、"像AI写的"、"降低AI检测率"、"审校"、"自然一些"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-script-polish" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-script-polish</code>
+<span class="pipe-badge">Personal &rsaquo; 质检</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-script-polish')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">视频脚本口语化审校，去书面腔让脚本适合说出来。当用户提到"口语化"、"太书面了"、"像说话一样"、"脚本审校"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-video-check" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-video-check</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/huashu-video-check')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">基于MrBeast策略检查视频标题、封面和开头钩子。当用户提到"视频标题"、"封面图"、"点击率"、"CTR"、"观看时长"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-video-outline" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-video-outline</code>
+<span class="pipe-badge">Personal &rsaquo; 生产</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-video-outline')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">快速生成2-3个视频大纲方案，含标题、封面建议和结构设计。当用户提到"视频大纲"、"视频结构"、"脚本大纲"、"视频选题"时使用。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-wechat-image" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-wechat-image</code>
+<span class="pipe-badge">Personal &rsaquo; 生产</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-wechat-image')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">| 为微信公众号文章生成高质量配图。支持封面图（2.35:1）、正文插图（16:9/4:3）、信息图。提供两条路径：AI生成（视觉创意型）和HTML渲染（文字精确型）。当用户提到"公众号配图"、"公众号封面"、"文章配图"、"正文插图"、"公众号图片"时使用此技能。</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="huashu-xhs-image" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/huashu-xhs-image</code>
+<span class="pipe-badge">Personal &rsaquo; 生产</span>
+<button class="copy-btn" onclick="copySlug(this, '/huashu-xhs-image')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">| 为小红书笔记生成高质量配图。默认AI生成（Gemini），仅精确数据表格用HTML兜底。当用户提到"小红书配图"、"小红书封面"、"小红书图片"、"做张小红书图"、"笔记配图"时使用此技能。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="industrial-brutalist-ui" data-triggers="">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/industrial-brutalist-ui</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/industrial-brutalist-ui')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1283,6 +2177,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/julian</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/julian')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1293,11 +2188,124 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="ljg-learn" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-learn</code>
+<span class="pipe-badge">Personal &rsaquo; 策划</span>
+<button class="copy-btn" onclick="copySlug(this, '/ljg-learn')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">Deep concept anatomist that deconstructs any concept through 8 exploration dimensions (history, dialectics, phenomenology, linguistics, formalization, existentialism, aesthetics, meta-philosophy) and compresses insights into an epiphany. Use when user asks to explain, dissect, or deeply understand a concept, term, or idea. Triggers on '解剖概念', '概念解剖', 'explain concept', 'learn concept', '/ljg-learn'. Produces org-mode output.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-present" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-present</code>
+<span class="pipe-badge">Personal &rsaquo; 生产</span>
+<button class="copy-btn" onclick="copySlug(this, '/ljg-present')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"演讲铸造器（Outline-Faithful）。基于 orgmode/markdown outline 层级 1:1 视觉化呈现——色块大字、ultra-bold 错位，原文不动只做美化。三档主题色 black/red/yellow（默认 black 或按 filetags 推断），可用 -r/-b/-y 显式覆盖；可用 --cyber 走黑底绿字 cyber-hacker 风。使用时用户会说：'讲这个'、'present'、'做成演讲'、'呈现一下'、'铸成演示'、'做个 slides'、'标语流'、'宣言体'、'slogan'、'manifesto'、'按 outline 美化'。输出单文件 HTML 到 ~/Downloads/。"</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-push" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-push</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-push')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">把 ~/.claude/skills/ljg-* 里所有更新过的 skills 同步到 github repo (ljg-skills)，先推 master 分支（org-mode 输出风格），再切 md 分支（markdown 输出风格）做基础 markdown 化后推。Use when user says '/ljg-push', 'push skills', '推送 skills', '同步 skills', 'sync ljg', or whenever ljg-* skills get updated and need shipping. NOT FOR pushing non-ljg skills or arbitrary git repos.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-rank" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-rank</code>
+<span class="pipe-badge">Personal &rsaquo; 策划</span>
+<button class="copy-btn" onclick="copySlug(this, '/ljg-rank')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">给一个领域，找出背后真正撑着它的几根独立的力。十几个现象砍到不可再少的生成器——砍完能把现象一个个生回来，才算数。Use when user says '降秩', '找秩', '秩是什么', '这个领域靠什么撑着', '背后是什么', or wants to decompose any domain to its irreducible generators.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-roundtable" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-roundtable</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-roundtable')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">- 一个议题，一场圆桌：主持人请来 3-5 位真实人物，定义开场，逐轮交锋， 每轮收一张 ASCII 结构图，用户用指令控节奏（可/止/深入此节/引入新人物）， 散场后全文存入 org 笔记。Use when user says "圆桌讨论", "圆桌", "roundtable", "辩论", or wants to explore a topic through multi-perspective structured debate.</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-skill-map" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-skill-map</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-skill-map')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"Skill map viewer. Scans all installed skills and renders a visual overview — name, version, description, category at a glance. Use when user says 'skills', '技能', '技能地图', 'skill map', '我有哪些技能', '看看技能', '列出技能', 'list skills'. Also trigger when user asks what skills are available or installed."</p>
+<div class="usage-line"></div>
+</div>
+</article>
+<article class="skill-card" data-slug="ljg-writes" data-triggers="">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/ljg-writes</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/ljg-writes')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"></div>
+<p class="desc">"写作引擎。像手术刀剖开一个观点，一层层剥到底。1000-1500 字。"</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="minimalist-ui" data-triggers="">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/minimalist-ui</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/minimalist-ui')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1308,11 +2316,28 @@ footer {
 <div class="usage-line"></div>
 </div>
 </article>
+<article class="skill-card" data-slug="personal-ip" data-triggers="个人IP|做内容|发抖音|发小红书|发公众号|选题|内容管线|写什么好">
+<div class="signal-bar"></div>
+<div class="card-body">
+<div class="card-header">
+<code class="slug">/personal-ip</code>
+
+<button class="copy-btn" onclick="copySlug(this, '/personal-ip')" title="Copy">
+<svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+<svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+</button>
+</div>
+<div class="triggers"><span class="trigger-tag">个人IP</span><span class="trigger-tag">做内容</span><span class="trigger-tag">发抖音</span><span class="trigger-tag">发小红书</span><span class="trigger-tag">发公众号</span><span class="trigger-tag">选题</span><span class="trigger-tag">内容管线</span><span class="trigger-tag">写什么好</span></div>
+<p class="desc">个人 IP 内容创作全管线 Router。从选题到发布的完整工作流编排，覆盖抖音、小红书、公众号三个平台。 当用户提到个人IP、做内容、写一条、发抖音、发小红书、发公众号、选题、拍什么、写什么好、 内容规划、本周内容、从头做、完整走一遍、内容管线时使用。 即使用户只是说"我想写点东西发出去"或"帮我想想发什么"，只要上下文是内容创作而非工作汇报， 也应该触发。</p>
+<div class="usage-line"></div>
+</div>
+</article>
 <article class="skill-card" data-slug="phone-in" data-triggers="">
 <div class="signal-bar"></div>
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/phone-in</code>
+
 <button class="copy-btn" onclick="copySlug(this, '/phone-in')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1328,6 +2353,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/phone-out</code>
+<span class="pipe-badge">Personal &rsaquo; 分发</span>
 <button class="copy-btn" onclick="copySlug(this, '/phone-out')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1348,6 +2374,18 @@ Skills Dashboard &mdash; auto-generated from F:\_环境\claude\commands\
 <script>
 const USAGE_LOG_PATH = 'usage.jsonl';
 let toastTimer = null;
+
+function jumpToSlug(slug) {
+  const card = document.querySelector('main .skill-card[data-slug="' + slug + '"]');
+  if (!card) return;
+  const cat = card.closest('.category');
+  if (cat) cat.classList.remove('hidden');
+  card.classList.remove('hidden');
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  card.classList.remove('highlight');
+  void card.offsetWidth;
+  card.classList.add('highlight');
+}
 
 function copySlug(btn, text) {
   navigator.clipboard.writeText(text).then(function() {
