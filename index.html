@@ -417,7 +417,7 @@ footer {
 <span><span class="stat-value">117</span> 已安装</span>
 <span><span class="stat-value stat-active" id="stat-active">—</span> 本周活跃</span>
 <span><span class="stat-value stat-invocations" id="stat-total">—</span> 累计调用</span>
-<span>更新于 2026-07-02 18:16</span>
+<span>更新于 2026-07-02 18:21</span>
 </div>
 </header>
 
@@ -516,6 +516,44 @@ footer {
 <li><a href="#" onclick="jumpToSlug('huashu-image-upload');return false">huashu-image-upload</a></li>
 <li><a href="#" onclick="jumpToSlug('huashu-md-to-pdf');return false">huashu-md-to-pdf</a></li>
 <li><a href="#" onclick="jumpToSlug('phone-out');return false">phone-out</a></li></ul>
+</div>
+
+
+</div>
+</section>
+<section class="pipeline" style="--pipe-color:#7C3AED">
+<div class="pipe-header">
+<span class="pipe-dot" style="background:#7C3AED"></span>
+<h3>SurveyMonkey Pipeline</h3>
+<code class="pipe-slug">/surveymonkey</code>
+</div>
+<div class="pipe-flow">
+<div class="pipe-stage">
+<h4>设计</h4>
+<ul><li><a href="#" onclick="jumpToSlug('in-app-survey');return false">in-app-survey</a></li>
+<li><a href="#" onclick="jumpToSlug('survey-localization-qa');return false">survey-localization-qa</a></li></ul>
+</div>
+<div class="pipe-arrow">&rarr;</div>
+<div class="pipe-stage">
+<h4>上传</h4>
+<ul><li><a href="#" onclick="jumpToSlug('sm-upload');return false">sm-upload</a></li></ul>
+</div>
+<div class="pipe-arrow">&rarr;</div>
+<div class="pipe-stage">
+<h4>部署</h4>
+<ul><li><a href="#" onclick="jumpToSlug('sm-collector');return false">sm-collector</a></li>
+<li><a href="#" onclick="jumpToSlug('sm-notify');return false">sm-notify</a></li></ul>
+</div>
+<div class="pipe-arrow">&rarr;</div>
+<div class="pipe-stage">
+<h4>运营</h4>
+<ul><li><a href="#" onclick="jumpToSlug('sm-monitor');return false">sm-monitor</a></li>
+<li><a href="#" onclick="jumpToSlug('sm-maintain');return false">sm-maintain</a></li></ul>
+</div>
+<div class="pipe-arrow">&rarr;</div>
+<div class="pipe-stage">
+<h4>分析</h4>
+<ul><li><a href="#" onclick="jumpToSlug('survey-data-analysis');return false">survey-data-analysis</a></li></ul>
 </div>
 
 
@@ -693,7 +731,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/in-app-survey</code>
-
+<span class="pipe-badge">SurveyMonkey &rsaquo; 设计</span>
 <button class="copy-btn" onclick="copySlug(this, '/in-app-survey')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -997,7 +1035,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/sm-collector</code>
-
+<span class="pipe-badge">SurveyMonkey &rsaquo; 部署</span>
 <button class="copy-btn" onclick="copySlug(this, '/sm-collector')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1013,7 +1051,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/sm-maintain</code>
-
+<span class="pipe-badge">SurveyMonkey &rsaquo; 运营</span>
 <button class="copy-btn" onclick="copySlug(this, '/sm-maintain')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1029,7 +1067,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/sm-monitor</code>
-
+<span class="pipe-badge">SurveyMonkey &rsaquo; 运营</span>
 <button class="copy-btn" onclick="copySlug(this, '/sm-monitor')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1045,7 +1083,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/sm-notify</code>
-
+<span class="pipe-badge">SurveyMonkey &rsaquo; 部署</span>
 <button class="copy-btn" onclick="copySlug(this, '/sm-notify')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1061,7 +1099,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/sm-upload</code>
-
+<span class="pipe-badge">SurveyMonkey &rsaquo; 上传</span>
 <button class="copy-btn" onclick="copySlug(this, '/sm-upload')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1077,7 +1115,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/survey-data-analysis</code>
-
+<span class="pipe-badge">SurveyMonkey &rsaquo; 分析</span>
 <button class="copy-btn" onclick="copySlug(this, '/survey-data-analysis')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1093,7 +1131,7 @@ footer {
 <div class="card-body">
 <div class="card-header">
 <code class="slug">/survey-localization-qa</code>
-
+<span class="pipe-badge">SurveyMonkey &rsaquo; 设计</span>
 <button class="copy-btn" onclick="copySlug(this, '/survey-localization-qa')" title="Copy">
 <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
 <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
