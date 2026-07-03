@@ -1,8 +1,10 @@
-"""Skills Dashboard Generator — scans installed skills, outputs HTML with live stats."""
+"""Skills Dashboard Generator — scans installed skills, outputs HTML with live stats, pushes to GitHub."""
 
 import sys
 import json
 import re
+import base64
+import subprocess
 from pathlib import Path
 from datetime import datetime
 
@@ -885,6 +887,43 @@ searchInput.addEventListener('focus', function() {{
     return html
 
 
+def push_to_github(html: str) -> bool:
+    """Push index.html to GitHub via gh API. Returns True on success."""
+    try:
+        result = subprocess.run(
+            ["gh", "api", "repos/juliandarling/skills-dashboard/contents/index.html",
+             "--jq", ".sha"],
+            capture_output=True, text=True, timeout=15
+        )
+        if result.returncode != 0:
+            print(f"  [push] Failed to get SHA: {result.stderr.strip()}")
+            return False
+        sha = result.stdout.strip()
+
+        content_b64 = base64.b64encode(html.encode("utf-8")).decode("ascii")
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+        payload = json.dumps({
+            "message": f"auto-sync dashboard ({now_str})",
+            "content": content_b64,
+            "sha": sha,
+        })
+
+        result = subprocess.run(
+            ["gh", "api", "repos/juliandarling/skills-dashboard/contents/index.html",
+             "--method", "PUT", "--input", "-"],
+            input=payload, capture_output=True, text=True, timeout=30
+        )
+        if result.returncode == 0:
+            print("  [push] GitHub updated")
+            return True
+        else:
+            print(f"  [push] Failed: {result.stderr.strip()[:200]}")
+            return False
+    except Exception as e:
+        print(f"  [push] Error: {e}")
+        return False
+
+
 def main():
     skills = []
 
@@ -901,6 +940,8 @@ def main():
     OUTPUT_FILE.write_text(html, encoding="utf-8")
     print(f"Generated: {OUTPUT_FILE}")
     print(f"  {len(skills)} skills")
+
+    push_to_github(html)
 
 
 if __name__ == "__main__":
