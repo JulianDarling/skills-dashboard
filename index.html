@@ -404,8 +404,8 @@ h1 { font-size: 18px; font-weight: 700; color: var(--ink); }
 <div><strong id="stat-total">0</strong> total runs</div>
 <div><strong id="stat-active">0</strong> active 7d</div>
 <div>133 installed</div>
-<div style="margin-top:12px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;"><strong>v754</strong></div>
-<div style="font-size:10px;opacity:0.6">2026-07-20 17:55</div>
+<div style="margin-top:12px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;"><strong>v756</strong></div>
+<div style="font-size:10px;opacity:0.6">2026-07-20 18:01</div>
 </div>
 <div class="changelog-section" id="changelog-section">
 <h4>Recent Changes</h4>
@@ -3870,7 +3870,7 @@ h1 { font-size: 18px; font-weight: 700; color: var(--ink); }
 </div>
 <div id="global-toast"></div>
 <script>
-const USAGE_DATA = {"ui-ux-pro-max": {"total": 1, "7d": 0}, "lark-doc": {"total": 2, "7d": 0}, "in-app-survey": {"total": 1, "7d": 0}, "web-access": {"total": 1, "7d": 0}};
+const USAGE_DATA = {"ui-ux-pro-max": {"total": 1, "7d": 0}, "lark-doc": {"total": 2, "7d": 0}, "in-app-survey": {"total": 1, "7d": 0}, "web-access": {"total": 5, "7d": 0}};
 let toastTimer = null;
 
 function jumpToSlug(slug) {
@@ -3918,7 +3918,7 @@ function applyStats() {
     else { card.classList.add('freq-high'); }
   });
 
-  const ta = '5';
+  const ta = '9';
   const ac = '0';
   if (parseInt(ta) > 0) document.getElementById('stat-total').textContent = ta;
   if (parseInt(ac) > 0) document.getElementById('stat-active').textContent = ac;
